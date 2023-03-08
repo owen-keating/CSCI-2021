@@ -1,0 +1,2286 @@
+#+TITLE: Problem 3 treemap_main application
+# Set defaults including to use Valgrind off the bat for all tests.
+#+TESTY: PREFIX="prob3"
+#+TESTY: PROGRAM='./treemap_main -echo'
+#+TESTY: PROMPT='TM>'
+#+TESTY: USE_VALGRIND=1
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+
+* Start, Print, Quit
+Starts the program, prints what should be an empty tree, then issues
+the quit command which should end the program
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> print
+TM> quit
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Get and in Empty Tree 
+Ensures that the 'get' command works properly in an empty tree: the
+underlying function returns NULL and 'NOT FOUND' is printed for all
+possible search keys.
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> print
+TM> get Apple
+NOT FOUND
+TM> get Banana
+NOT FOUND
+TM> quit
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+* Get in a Singleton Tree 
+Adds a single key/val to the tree then ensures that the 'get' command
+works properly in the 1-element tree. The sole key should be 'FOUND'
+and displayed while other keys should print 'NOT FOUND'.
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> add Grape fruit
+TM> print
+Grape -> fruit
+TM> get Grape
+FOUND: fruit
+TM> get Apple
+NOT FOUND
+TM> get Carrot
+NOT FOUND
+TM> get Peach
+NOT FOUND
+TM> quit
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+* Tree of 4
+Add 4 key/vals to the tree. Print the tree, check that each key/val
+can be found and that keys not present properly report 'NOT
+FOUND'. Also checks that the size command works properly for small
+trees.
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> print
+TM> size
+0 nodes
+TM> add Kyle alive
+TM> add Stan alive
+TM> size
+2 nodes
+TM> add Cartman alive
+TM> add Kenny killed
+TM> size
+4 nodes
+TM> print
+  Stan -> alive
+Kyle -> alive
+    Kenny -> killed
+  Cartman -> alive
+TM> get Kyle
+FOUND: alive
+TM> get Kenny
+FOUND: killed
+TM> get Stan
+FOUND: alive
+TM> get Token
+NOT FOUND
+TM> get Jimmy
+NOT FOUND
+TM> get Wendy
+NOT FOUND
+TM> get Bebe
+NOT FOUND
+TM> quit
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+* Preorder Command
+Add some items to the tree and check that the 'preorder' display works
+correctly. The underlying functions for preorder are what is used to
+save trees in files and restore them.
+
+#+BEGIN_SRC sh
+TreeMap Editor 
+Commands: 
+  quit: exit the program 
+  print: shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> print
+TM> preorder
+
+TM> add Kenny killed
+TM> preorder
+Kenny killed
+TM> print 
+Kenny -> killed
+
+TM> size
+1 nodes
+TM> add Cartman alive
+TM> add Kyle alive
+TM> add Stan alive
+TM> size
+4 nodes
+TM> print
+    Stan -> alive
+  Kyle -> alive
+Kenny -> killed
+  Cartman -> alive
+
+TM> preorder
+Kenny killed
+  Cartman alive
+  Kyle alive
+    Stan alive
+
+TM> add Jimmy alive
+TM> add Chef dead
+TM> add Wendy alive
+TM> size
+7 nodes
+TM> print
+      Wendy -> alive
+    Stan -> alive
+  Kyle -> alive
+Kenny -> killed
+    Jimmy -> alive
+      Chef -> dead
+  Cartman -> alive
+
+TM> preorder
+Kenny killed
+  Cartman alive
+    Jimmy alive
+      Chef dead
+  Kyle alive
+    Stan alive
+      Wendy alive
+
+TM> add Timmy alive
+TM> add MrHat dead
+TM> size
+9 nodes
+TM> print
+      Wendy -> alive
+        Timmy -> alive
+    Stan -> alive
+      MrHat -> dead
+  Kyle -> alive
+Kenny -> killed
+    Jimmy -> alive
+      Chef -> dead
+  Cartman -> alive
+
+TM> preorder
+Kenny killed
+  Cartman alive
+    Jimmy alive
+      Chef dead
+  Kyle alive
+    Stan alive
+      MrHat dead
+      Wendy alive
+        Timmy alive
+TM> quit
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Tree of 4, alternate order
+Ensure that adding in alternate orders still respects the Binary
+Search Tree ordering in 'print', 'preorder' and 'get' 
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> add Stan alive
+TM> print
+Stan -> alive
+TM> add Cartman alive
+TM> add Kenny dead
+TM> add Kyle alive
+TM> size
+4 nodes
+
+TM> print
+Stan -> alive
+      Kyle -> alive
+    Kenny -> dead
+  Cartman -> alive
+
+TM> preorder
+Stan alive
+  Cartman alive
+    Kenny dead
+      Kyle alive
+
+TM> add Wendy alive
+TM> size
+5 nodes
+TM> print
+  Wendy -> alive
+Stan -> alive
+      Kyle -> alive
+    Kenny -> dead
+  Cartman -> alive
+TM> preorder
+Stan alive
+  Cartman alive
+    Kenny dead
+      Kyle alive
+  Wendy alive
+
+TM> get Kenny
+FOUND: dead
+
+TM> get Kyle
+FOUND: alive
+
+TM> get Bebe
+NOT FOUND
+
+TM> get MrHat
+NOT FOUND
+
+TM> quit
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* End of Input
+Checks that if the end of input is reached, the program exits
+correctly printing nothing extra. End of input is triggered
+interactively by pressing 'Ctrl-d' in a terminal. In batch mode, it is
+triggered by reaching the end of an input stream (file). In such
+cases, C input functions like fscanf() return the special value EOF.
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> add Stan alive
+TM> add Kenny killed
+TM> print
+Stan -> alive
+  Kenny -> killed
+#+TESTY_EOF:
+TM> 
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Add Lots
+Adds a lot of key/val pairs to the tree and checks that the tree
+displays properly via 'print' and 'preorder'. Also checks some 'get'
+calls return correct values.
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> add Kyle 1
+TM> add Stan 2
+TM> add Cartman 3
+TM> add Kenny 4
+TM> add Butters 5
+TM> add Token 6
+TM> add Wendy 7
+TM> add MrGarrison 8
+TM> size
+8 nodes
+TM> get Kenny
+FOUND: 4
+TM> get Wendy
+FOUND: 7
+TM> get Cartman
+FOUND: 3
+TM> get MrHat
+NOT FOUND
+TM> get MrStick
+NOT FOUND
+TM> print
+      Wendy -> 7
+    Token -> 6
+  Stan -> 2
+    MrGarrison -> 8
+Kyle -> 1
+    Kenny -> 4
+  Cartman -> 3
+    Butters -> 5
+TM> preorder
+Kyle 1
+  Cartman 3
+    Butters 5
+    Kenny 4
+  Stan 2
+    MrGarrison 8
+    Token 6
+      Wendy 7
+TM> add MrHat 9
+TM> add MrStick 10
+TM> size
+10 nodes
+TM> print
+      Wendy -> 7
+    Token -> 6
+  Stan -> 2
+        MrStick -> 10
+      MrHat -> 9
+    MrGarrison -> 8
+Kyle -> 1
+    Kenny -> 4
+  Cartman -> 3
+    Butters -> 5
+TM> preorder
+Kyle 1
+  Cartman 3
+    Butters 5
+    Kenny 4
+  Stan 2
+    MrGarrison 8
+      MrHat 9
+        MrStick 10
+    Token 6
+      Wendy 7
+TM> quit
+
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Add Overwrite
+Checks that re-adding a key/val that already exists will change the
+value associated with the existing key. When this happens, the message
+'modified existing' should be printed
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> add Kenny alive
+TM> print
+Kenny -> alive
+TM> size
+1 nodes
+TM> add Kenny dead
+modified existing key
+TM> size
+1 nodes
+TM> print
+Kenny -> dead
+TM> add Cartman fat
+TM> print
+Kenny -> dead
+  Cartman -> fat
+TM> size
+2 nodes
+TM> add Cartman beefcake
+modified existing key
+TM> print
+Kenny -> dead
+  Cartman -> beefcake
+TM> size
+2 nodes
+TM> add Kyle alive
+TM> add Stan alive
+TM> add Kyle lonely
+modified existing key
+TM> print
+    Stan -> alive
+  Kyle -> lonely
+Kenny -> dead
+  Cartman -> beefcake
+TM> size
+4 nodes
+TM> add Kenny zombie
+modified existing key
+TM> print
+    Stan -> alive
+  Kyle -> lonely
+Kenny -> zombie
+  Cartman -> beefcake
+TM> size
+4 nodes
+TM> add Kyle irate
+modified existing key
+TM> print
+    Stan -> alive
+  Kyle -> irate
+Kenny -> zombie
+  Cartman -> beefcake
+TM> size
+4 nodes
+TM> quit
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Clear command
+'clear' should eliminate the whole tree leaving it empty. Underlying
+functions must recursively free the memory associated with the tree to
+prevent memory leaks. Subsequent adds should rebuild the tree from
+scratch. 
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> add Grape fruit
+TM> add Apple fruit
+TM> add Orange fruit
+TM> print
+  Orange -> fruit
+Grape -> fruit
+  Apple -> fruit
+TM> size
+3 nodes
+TM> clear
+TM> print
+TM> preorder
+TM> size
+0 nodes
+TM> add Grape fruit
+TM> add Carrot vegetable
+TM> add Date fruit
+TM> add Lettuce vegetable
+TM> print
+  Lettuce -> vegetable
+Grape -> fruit
+    Date -> fruit
+  Carrot -> vegetable
+TM> size
+4 nodes
+TM> quit
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Successive Clears
+This test adds, clears, add clears, etc. several times to ensure
+successive clears perform properly.
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> clear
+TM> print
+TM> add Apple fruit
+TM> print
+Apple -> fruit
+TM> clear
+TM> print
+TM> preorder
+TM> add Grape fruit
+TM> add Carrot vegetable
+TM> add Date fruit
+TM> add Lettuce vegetable
+TM> print
+  Lettuce -> vegetable
+Grape -> fruit
+    Date -> fruit
+  Carrot -> vegetable
+TM> size
+4 nodes
+TM> clear
+TM> size
+0 nodes
+TM> print
+TM> clear
+TM> size
+0 nodes
+TM> print
+TM> add Kyle 1
+TM> add Stan 2
+TM> add Cartman 3
+TM> add Kenny 4
+TM> add Butters 5
+TM> add Token 6
+TM> add Wendy 7
+TM> add MrGarrison 8
+TM> print
+      Wendy -> 7
+    Token -> 6
+  Stan -> 2
+    MrGarrison -> 8
+Kyle -> 1
+    Kenny -> 4
+  Cartman -> 3
+    Butters -> 5
+TM> size
+8 nodes
+TM> clear
+TM> size
+0 nodes
+TM> print
+TM> quit
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Add 1 and Save
+Checks that a singleton tree can be created and saved. Checks that the
+resulting file contains the single key/val pair in it.
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> add hello world
+TM> print
+hello -> world
+TM> size
+1 nodes
+TM> preorder
+hello world
+TM> save test-results/hello-world.tm
+TM> clear
+TM> quit
+#+END_SRC
+
+#+TESTY: use_valgrind=0
+#+TESTY: prefix=cat
+#+TESTY: program="cat test-results/hello-world.tm"
+#+BEGIN_SRC sh
+hello world
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Add 3 and Save
+Adds 3 key/vals and then saves them to a file. Checks that the file
+contents match what is displayed with the 'preorder' builtin command. 
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> add Kyle alive
+TM> add Stan alive
+TM> add Kenny killed
+TM> print
+  Stan -> alive
+Kyle -> alive
+  Kenny -> killed
+TM> preorder
+Kyle alive
+  Kenny killed
+  Stan alive
+TM> size
+3 nodes
+TM> save test-results/sp3.tm
+TM> quit
+#+END_SRC
+
+#+TESTY: use_valgrind=0
+#+TESTY: prefix=cat
+#+TESTY: program="cat test-results/sp3.tm"
+#+BEGIN_SRC sh
+Kyle alive
+  Kenny killed
+  Stan alive
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Save then Load
+Saves a tree, clears, then loads it to show if that the results can be restored.
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> add Kyle 1
+TM> add Stan 2
+TM> add Cartman 3
+TM> add Kenny 4
+TM> add Butters 5
+TM> add Token 6
+TM> add Wendy 7
+TM> add MrGarrison 8
+TM> preorder
+Kyle 1
+  Cartman 3
+    Butters 5
+    Kenny 4
+  Stan 2
+    MrGarrison 8
+    Token 6
+      Wendy 7
+TM> print
+      Wendy -> 7
+    Token -> 6
+  Stan -> 2
+    MrGarrison -> 8
+Kyle -> 1
+    Kenny -> 4
+  Cartman -> 3
+    Butters -> 5
+TM> size
+8 nodes
+TM> save test-results/sp8.tm
+TM> clear
+TM> size
+0 nodes
+TM> print
+TM> load test-results/sp8.tm
+TM> size
+8 nodes
+TM> preorder
+Kyle 1
+  Cartman 3
+    Butters 5
+    Kenny 4
+  Stan 2
+    MrGarrison 8
+    Token 6
+      Wendy 7
+TM> print
+      Wendy -> 7
+    Token -> 6
+  Stan -> 2
+    MrGarrison -> 8
+Kyle -> 1
+    Kenny -> 4
+  Cartman -> 3
+    Butters -> 5
+TM> quit
+#+END_SRC
+
+#+TESTY: use_valgrind=0
+#+TESTY: prefix=cat
+#+TESTY: program="cat test-results/sp8.tm"
+#+BEGIN_SRC sh
+Kyle 1
+  Cartman 3
+    Butters 5
+    Kenny 4
+  Stan 2
+    MrGarrison 8
+    Token 6
+      Wendy 7
+#+END_SRC
+
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Clear before Load
+Tests that exiting tree is cleared before a load so that the loaded
+tree takes its place.
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> add Kyle 1
+TM> add Stan 2
+TM> add Cartman 3
+TM> add Kenny 4
+TM> add Butters 5
+TM> size
+5 nodes
+TM> print
+  Stan -> 2
+Kyle -> 1
+    Kenny -> 4
+  Cartman -> 3
+    Butters -> 5
+TM> save test-results/sp5.tm
+TM> add Wendy 6
+TM> add MrHat 7
+TM> add Token 8
+TM> size
+8 nodes
+TM> print
+    Wendy -> 6
+      Token -> 8
+  Stan -> 2
+    MrHat -> 7
+Kyle -> 1
+    Kenny -> 4
+  Cartman -> 3
+    Butters -> 5
+TM> load test-results/sp5.tm
+TM> size
+5 nodes
+TM> print
+  Stan -> 2
+Kyle -> 1
+    Kenny -> 4
+  Cartman -> 3
+    Butters -> 5
+TM> add MrGarrison 6
+TM> print
+  Stan -> 2
+    MrGarrison -> 6
+Kyle -> 1
+    Kenny -> 4
+  Cartman -> 3
+    Butters -> 5
+TM> size
+6 nodes
+TM> load test-results/sp5.tm
+TM> size
+5 nodes
+TM> print
+  Stan -> 2
+Kyle -> 1
+    Kenny -> 4
+  Cartman -> 3
+    Butters -> 5
+TM> quit
+#+END_SRC
+
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Multiple Saves
+Saves multiple trees and loads between them to ensure that the trees
+are restored and no memory leaks occur.
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> add Kyle 1
+TM> add Stan 2
+TM> add Cartman 3
+TM> add Kenny 4
+TM> add Butters 5
+TM> save test-results/sp5.tm
+TM> add Wendy 6
+TM> add MrHat 7
+TM> add Token 8
+TM> add Jimmy 9
+TM> save test-results/sp9.tm
+TM> load test-results/sp5.tm
+TM> print
+  Stan -> 2
+Kyle -> 1
+    Kenny -> 4
+  Cartman -> 3
+    Butters -> 5
+TM> load test-results/sp9.tm
+TM> print
+    Wendy -> 6
+      Token -> 8
+  Stan -> 2
+    MrHat -> 7
+Kyle -> 1
+    Kenny -> 4
+      Jimmy -> 9
+  Cartman -> 3
+    Butters -> 5
+TM> add Chef 10
+TM> add RobertSmith 11
+TM> print
+    Wendy -> 6
+      Token -> 8
+  Stan -> 2
+      RobertSmith -> 11
+    MrHat -> 7
+Kyle -> 1
+    Kenny -> 4
+      Jimmy -> 9
+        Chef -> 10
+  Cartman -> 3
+    Butters -> 5
+TM> save test-results/sp11.tm
+TM> load test-results/sp5.tm
+TM> print
+  Stan -> 2
+Kyle -> 1
+    Kenny -> 4
+  Cartman -> 3
+    Butters -> 5
+TM> load test-results/sp11.tm
+TM> print
+    Wendy -> 6
+      Token -> 8
+  Stan -> 2
+      RobertSmith -> 11
+    MrHat -> 7
+Kyle -> 1
+    Kenny -> 4
+      Jimmy -> 9
+        Chef -> 10
+  Cartman -> 3
+    Butters -> 5
+TM> load test-results/sp9.tm
+TM> print
+    Wendy -> 6
+      Token -> 8
+  Stan -> 2
+    MrHat -> 7
+Kyle -> 1
+    Kenny -> 4
+      Jimmy -> 9
+  Cartman -> 3
+    Butters -> 5
+#+TESTY_EOF:
+TM> 
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Loading Missing Files
+Checks that missing files are properly handled. This should print
+error messages like
+
+ERROR: could not open file 'test-results/not-there.tm'
+load failed
+
+Importantly, if there is a tree existing and a load fails, the
+existing tree remains.
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> load test-results/not-there.tm
+ERROR: could not open file 'test-results/not-there.tm'
+load failed
+TM> print
+TM> add Banana fruit
+TM> add Apple fruit
+TM> add Carrot vegetable
+TM> print
+  Carrot -> vegetable
+Banana -> fruit
+  Apple -> fruit
+TM> load test-results/still-not-there.tm
+ERROR: could not open file 'test-results/still-not-there.tm'
+load failed
+TM> print
+  Carrot -> vegetable
+Banana -> fruit
+  Apple -> fruit
+#+TESTY_EOF:
+TM> 
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Sample Script
+This test runs the commands in the provided treemap-script.txt to
+ensure that the code is compatible with it. 
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> add El strange
+TM> add Mike stoic
+TM> size
+2 nodes
+TM> print
+  Mike -> stoic
+El -> strange
+TM> add Dustin corny
+TM> add Lucas brash
+TM> print
+  Mike -> stoic
+    Lucas -> brash
+El -> strange
+  Dustin -> corny
+TM> add Will lost
+TM> add Steve hairy
+TM> size
+6 nodes
+TM> print
+    Will -> lost
+      Steve -> hairy
+  Mike -> stoic
+    Lucas -> brash
+El -> strange
+  Dustin -> corny
+TM> get Dustin
+FOUND: corny
+TM> get Steve
+FOUND: hairy
+TM> get Mike
+FOUND: stoic
+TM> get Barb
+NOT FOUND
+TM> get Hopper
+NOT FOUND
+TM> size
+6 nodes
+TM> save test-results/stranger.tm
+TM> clear
+TM> size
+0 nodes
+TM> print
+TM> load test-results/stranger.tm
+TM> size
+6 nodes
+TM> print
+    Will -> lost
+      Steve -> hairy
+  Mike -> stoic
+    Lucas -> brash
+El -> strange
+  Dustin -> corny
+TM> add El hairy
+modified existing key
+TM> add Will found
+modified existing key
+TM> add Barb away
+TM> size
+7 nodes
+TM> print
+    Will -> found
+      Steve -> hairy
+  Mike -> stoic
+    Lucas -> brash
+El -> hairy
+  Dustin -> corny
+    Barb -> away
+TM> load test-results/stranger.tm
+TM> print
+    Will -> lost
+      Steve -> hairy
+  Mike -> stoic
+    Lucas -> brash
+El -> strange
+  Dustin -> corny
+TM> preorder
+El strange
+  Dustin corny
+  Mike stoic
+    Lucas brash
+    Will lost
+      Steve hairy
+TM> quit
+#+END_SRC
+
+Check that the saved tree looks right.
+#+TESTY: use_valgrind=0
+#+TESTY: prefix=cat
+#+TESTY: program="cat test-results/stranger.tm"
+#+BEGIN_SRC sh
+El strange
+  Dustin corny
+  Mike stoic
+    Lucas brash
+    Will lost
+      Steve hairy
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* The Big Load
+Loads the provided data/big.tm tree and prints it. This is a sizable
+tree which may put some stress on poor implementations.
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> load data/big.tm
+TM> size
+200 nodes
+TM> print
+        Zachary -> boy
+          Willie -> boy
+      William -> boy
+                  Wayne -> boy
+                Walter -> boy
+              Virginia -> girl
+                    Vincent -> boy
+                  Victoria -> girl
+                Tyler -> boy
+            Timothy -> boy
+              Tiffany -> girl
+          Thomas -> boy
+              Theresa -> girl
+            Terry -> boy
+              Teresa -> girl
+        Susan -> girl
+            Steven -> boy
+                Stephen -> boy
+              Stephanie -> girl
+                  Shirley -> girl
+                Sharon -> girl
+                    Sean -> boy
+                  Scott -> boy
+          Sarah -> girl
+              Sara -> girl
+            Sandra -> girl
+                    Samuel -> boy
+                  Samantha -> girl
+                Ryan -> boy
+                  Ruth -> girl
+                      Russell -> boy
+                    Roy -> boy
+                      Rose -> girl
+              Ronald -> boy
+                Roger -> boy
+    Robert -> boy
+      Richard -> boy
+          Rebecca -> girl
+            Raymond -> boy
+                  Randy -> boy
+                Ralph -> boy
+              Rachel -> girl
+                  Philip -> boy
+                Peter -> boy
+        Paul -> boy
+          Patrick -> boy
+  Patricia -> girl
+          Pamela -> girl
+              Olivia -> girl
+                Noah -> boy
+            Nicole -> girl
+        Nicholas -> boy
+          Nathan -> boy
+            Natalie -> girl
+      Nancy -> girl
+        Michelle -> girl
+    Michael -> boy
+        Melissa -> girl
+          Megan -> girl
+      Matthew -> boy
+Mary -> girl
+            Martha -> girl
+          Mark -> boy
+                Marilyn -> girl
+              Marie -> girl
+            Maria -> girl
+        Margaret -> girl
+            Madison -> girl
+              Louis -> boy
+                Lori -> girl
+                  Logan -> boy
+          Lisa -> girl
+      Linda -> girl
+                  Lawrence -> boy
+                Lauren -> girl
+              Laura -> girl
+                Larry -> boy
+                  Kyle -> boy
+            Kimberly -> girl
+                Kevin -> boy
+              Kenneth -> boy
+                  Kelly -> girl
+                    Keith -> boy
+                        Kayla -> girl
+                      Kathryn -> girl
+                Kathleen -> girl
+                  Katherine -> girl
+          Karen -> girl
+              Justin -> boy
+                Julie -> girl
+                      Julia -> girl
+                        Judy -> girl
+                    Judith -> girl
+                      Juan -> boy
+                  Joyce -> girl
+            Joshua -> boy
+        Joseph -> boy
+            Jose -> boy
+              Jordan -> boy
+          Jonathan -> boy
+            Johnny -> boy
+    John -> boy
+            Joe -> boy
+          Joan -> girl
+        Jessica -> girl
+            Jesse -> boy
+          Jerry -> boy
+            Jeremy -> boy
+      Jennifer -> girl
+          Jeffrey -> boy
+            Jean -> girl
+        Jason -> boy
+            Janice -> girl
+          Janet -> girl
+            Jane -> girl
+  James -> boy
+            Jacqueline -> girl
+          Jacob -> boy
+            Jack -> boy
+              Henry -> boy
+        Helen -> girl
+            Heather -> girl
+                Harry -> boy
+              Harold -> boy
+                Hannah -> girl
+          Gregory -> boy
+                Grace -> girl
+              Gloria -> girl
+            Gerald -> boy
+      George -> boy
+          Gary -> boy
+                Gabriel -> boy
+              Frank -> boy
+                  Frances -> girl
+                Evelyn -> girl
+                    Eugene -> boy
+                  Ethan -> boy
+            Eric -> boy
+              Emma -> girl
+        Emily -> girl
+    Elizabeth -> girl
+            Edward -> boy
+                Dylan -> boy
+              Douglas -> boy
+          Dorothy -> girl
+                Doris -> girl
+              Donna -> girl
+            Donald -> boy
+                    Diane -> girl
+                      Diana -> girl
+                  Dennis -> boy
+                    Denise -> girl
+                Debra -> girl
+              Deborah -> girl
+        David -> boy
+                Danielle -> girl
+              Daniel -> boy
+                Cynthia -> girl
+            Christopher -> boy
+              Christine -> girl
+                Christina -> girl
+                    Christian -> boy
+                  Cheryl -> girl
+          Charles -> boy
+                Catherine -> girl
+                  Carolyn -> girl
+              Carol -> girl
+                  Carl -> boy
+                    Bryan -> boy
+                      Bruce -> boy
+                        Brittany -> girl
+                Brian -> boy
+                  Brenda -> girl
+                    Brandon -> boy
+                        Bobby -> boy
+                      Billy -> boy
+                        Beverly -> girl
+            Betty -> girl
+              Benjamin -> boy
+      Barbara -> girl
+            Austin -> boy
+          Ashley -> girl
+            Arthur -> boy
+        Anthony -> boy
+            Anna -> girl
+                Ann -> girl
+              Angela -> girl
+          Andrew -> boy
+                Andrea -> girl
+              Amy -> girl
+                Amber -> girl
+            Amanda -> girl
+                Alice -> girl
+                  Alexis -> girl
+              Alexander -> boy
+                    Albert -> boy
+                      Alan -> boy
+                  Adam -> boy
+                    Abigail -> girl
+                Aaron -> boy
+TM> preorder
+Mary girl
+  James boy
+    Elizabeth girl
+      Barbara girl
+        Anthony boy
+          Andrew boy
+            Amanda girl
+              Alexander boy
+                Aaron boy
+                  Adam boy
+                    Abigail girl
+                    Albert boy
+                      Alan boy
+                Alice girl
+                  Alexis girl
+              Amy girl
+                Amber girl
+                Andrea girl
+            Anna girl
+              Angela girl
+                Ann girl
+          Ashley girl
+            Arthur boy
+            Austin boy
+        David boy
+          Charles boy
+            Betty girl
+              Benjamin boy
+              Carol girl
+                Brian boy
+                  Brenda girl
+                    Brandon boy
+                      Billy boy
+                        Beverly girl
+                        Bobby boy
+                  Carl boy
+                    Bryan boy
+                      Bruce boy
+                        Brittany girl
+                Catherine girl
+                  Carolyn girl
+            Christopher boy
+              Christine girl
+                Christina girl
+                  Cheryl girl
+                    Christian boy
+              Daniel boy
+                Cynthia girl
+                Danielle girl
+          Dorothy girl
+            Donald boy
+              Deborah girl
+                Debra girl
+                  Dennis boy
+                    Denise girl
+                    Diane girl
+                      Diana girl
+              Donna girl
+                Doris girl
+            Edward boy
+              Douglas boy
+                Dylan boy
+      George boy
+        Emily girl
+          Gary boy
+            Eric boy
+              Emma girl
+              Frank boy
+                Evelyn girl
+                  Ethan boy
+                    Eugene boy
+                  Frances girl
+                Gabriel boy
+        Helen girl
+          Gregory boy
+            Gerald boy
+              Gloria girl
+                Grace girl
+            Heather girl
+              Harold boy
+                Hannah girl
+                Harry boy
+          Jacob boy
+            Jack boy
+              Henry boy
+            Jacqueline girl
+    John boy
+      Jennifer girl
+        Jason boy
+          Janet girl
+            Jane girl
+            Janice girl
+          Jeffrey boy
+            Jean girl
+        Jessica girl
+          Jerry boy
+            Jeremy boy
+            Jesse boy
+          Joan girl
+            Joe boy
+      Linda girl
+        Joseph boy
+          Jonathan boy
+            Johnny boy
+            Jose boy
+              Jordan boy
+          Karen girl
+            Joshua boy
+              Justin boy
+                Julie girl
+                  Joyce girl
+                    Judith girl
+                      Juan boy
+                      Julia girl
+                        Judy girl
+            Kimberly girl
+              Kenneth boy
+                Kathleen girl
+                  Katherine girl
+                  Kelly girl
+                    Keith boy
+                      Kathryn girl
+                        Kayla girl
+                Kevin boy
+              Laura girl
+                Larry boy
+                  Kyle boy
+                Lauren girl
+                  Lawrence boy
+        Margaret girl
+          Lisa girl
+            Madison girl
+              Louis boy
+                Lori girl
+                  Logan boy
+          Mark boy
+            Maria girl
+              Marie girl
+                Marilyn girl
+            Martha girl
+  Patricia girl
+    Michael boy
+      Matthew boy
+        Melissa girl
+          Megan girl
+      Nancy girl
+        Michelle girl
+        Nicholas boy
+          Nathan boy
+            Natalie girl
+          Pamela girl
+            Nicole girl
+              Olivia girl
+                Noah boy
+    Robert boy
+      Richard boy
+        Paul boy
+          Patrick boy
+          Rebecca girl
+            Raymond boy
+              Rachel girl
+                Peter boy
+                  Philip boy
+                Ralph boy
+                  Randy boy
+      William boy
+        Susan girl
+          Sarah girl
+            Sandra girl
+              Ronald boy
+                Roger boy
+                Ryan boy
+                  Ruth girl
+                    Roy boy
+                      Rose girl
+                      Russell boy
+                  Samantha girl
+                    Samuel boy
+              Sara girl
+            Steven boy
+              Stephanie girl
+                Sharon girl
+                  Scott boy
+                    Sean boy
+                  Shirley girl
+                Stephen boy
+          Thomas boy
+            Terry boy
+              Teresa girl
+              Theresa girl
+            Timothy boy
+              Tiffany girl
+              Virginia girl
+                Tyler boy
+                  Victoria girl
+                    Vincent boy
+                Walter boy
+                  Wayne boy
+        Zachary boy
+          Willie boy
+TM> quit
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
+
+* Stress Testing
+Does a lot of adding to create a large tree, saves and loads it.
+Similar to the provided data/big-script.txt. Will stress test the
+implementation. 
+
+#+BEGIN_SRC sh
+TreeMap Editor
+Commands:
+  quit:            exit the program
+  print:           shows contents of the tree in reverse sorted order
+  add <key> <val>: inserts the given key/val into the tree, duplicate keys are ignored
+  get <key>:       prints FOUND if the name is in the tree, NOT FOUND otherwise
+  clear:           eliminates all key/vals from the tree
+  size:            prints the total number of nodes in the tree
+  preorder:        prints contents of the tree in pre-order which is how it will be saved
+  save <file>:     writes the contents of the tree in pre-order to the given file
+  load <file>:     clears the current tree and loads the one in the given file
+TM> add Mary girl
+TM> add James boy
+TM> add Patricia girl
+TM> add John boy
+TM> add Jennifer girl
+TM> add Robert boy
+TM> add Elizabeth girl
+TM> add Michael boy
+TM> add Linda girl
+TM> add William boy
+TM> add Barbara girl
+TM> add David boy
+TM> add Susan girl
+TM> add Richard boy
+TM> add Jessica girl
+TM> add Joseph boy
+TM> add Margaret girl
+TM> add Thomas boy
+TM> add Sarah girl
+TM> add Charles boy
+TM> add Karen girl
+TM> add Christopher boy
+TM> add Nancy girl
+TM> add Daniel boy
+TM> add Betty girl
+TM> add Matthew boy
+TM> add Lisa girl
+TM> add Anthony boy
+TM> add Dorothy girl
+TM> add Donald boy
+TM> add Sandra girl
+TM> add Mark boy
+TM> add Ashley girl
+TM> add Paul boy
+TM> add Kimberly girl
+TM> add Steven boy
+TM> add Donna girl
+TM> add Andrew boy
+TM> add Carol girl
+TM> add Kenneth boy
+TM> add Michelle girl
+TM> add George boy
+TM> add Emily girl
+TM> add Joshua boy
+TM> add Amanda girl
+TM> add Kevin boy
+TM> add Helen girl
+TM> add Brian boy
+TM> add Melissa girl
+TM> add Edward boy
+TM> add Deborah girl
+TM> add Ronald boy
+TM> add Stephanie girl
+TM> add Timothy boy
+TM> add Laura girl
+TM> add Jason boy
+TM> add Rebecca girl
+TM> add Jeffrey boy
+TM> add Sharon girl
+TM> add Ryan boy
+TM> add Cynthia girl
+TM> add Gary boy
+TM> add Kathleen girl
+TM> add Jacob boy
+TM> add Amy girl
+TM> add Nicholas boy
+TM> add Shirley girl
+TM> add Eric boy
+TM> add Anna girl
+TM> add Stephen boy
+TM> add Angela girl
+TM> add Jonathan boy
+TM> add Ruth girl
+TM> add Larry boy
+TM> add Brenda girl
+TM> add Justin boy
+TM> add Pamela girl
+TM> add Scott boy
+TM> add Nicole girl
+TM> add Frank boy
+TM> add Katherine girl
+TM> add Brandon boy
+TM> add Virginia girl
+TM> add Raymond boy
+TM> add Catherine girl
+TM> add Gregory boy
+TM> add Christine girl
+TM> add Benjamin boy
+TM> add Samantha girl
+TM> add Samuel boy
+TM> add Debra girl
+TM> add Patrick boy
+TM> add Janet girl
+TM> add Alexander boy
+TM> add Rachel girl
+TM> add Jack boy
+TM> add Carolyn girl
+TM> add Dennis boy
+TM> add Emma girl
+TM> add Jerry boy
+TM> add Maria girl
+TM> add Tyler boy
+TM> add Heather girl
+TM> add Aaron boy
+TM> add Diane girl
+TM> add Henry boy
+TM> add Julie girl
+TM> add Douglas boy
+TM> add Joyce girl
+TM> add Jose boy
+TM> add Evelyn girl
+TM> add Peter boy
+TM> add Frances girl
+TM> add Adam boy
+TM> add Joan girl
+TM> add Zachary boy
+TM> add Christina girl
+TM> add Nathan boy
+TM> add Kelly girl
+TM> add Walter boy
+TM> add Victoria girl
+TM> add Harold boy
+TM> add Lauren girl
+TM> add Kyle boy
+TM> add Martha girl
+TM> add Carl boy
+TM> add Judith girl
+TM> add Arthur boy
+TM> add Cheryl girl
+TM> add Gerald boy
+TM> add Megan girl
+TM> add Roger boy
+TM> add Andrea girl
+TM> add Keith boy
+TM> add Ann girl
+TM> add Jeremy boy
+TM> add Alice girl
+TM> add Terry boy
+TM> add Jean girl
+TM> add Lawrence boy
+TM> add Doris girl
+TM> add Sean boy
+TM> add Jacqueline girl
+TM> add Christian boy
+TM> add Kathryn girl
+TM> add Albert boy
+TM> add Hannah girl
+TM> add Joe boy
+TM> add Olivia girl
+TM> add Ethan boy
+TM> add Gloria girl
+TM> add Austin boy
+TM> add Marie girl
+TM> add Jesse boy
+TM> add Teresa girl
+TM> add Willie boy
+TM> add Sara girl
+TM> add Billy boy
+TM> add Janice girl
+TM> add Bryan boy
+TM> add Julia girl
+TM> add Bruce boy
+TM> add Grace girl
+TM> add Jordan boy
+TM> add Judy girl
+TM> add Ralph boy
+TM> add Theresa girl
+TM> add Roy boy
+TM> add Rose girl
+TM> add Noah boy
+TM> add Beverly girl
+TM> add Dylan boy
+TM> add Denise girl
+TM> add Eugene boy
+TM> add Marilyn girl
+TM> add Wayne boy
+TM> add Amber girl
+TM> add Alan boy
+TM> add Madison girl
+TM> add Juan boy
+TM> add Danielle girl
+TM> add Louis boy
+TM> add Brittany girl
+TM> add Russell boy
+TM> add Diana girl
+TM> add Gabriel boy
+TM> add Abigail girl
+TM> add Randy boy
+TM> add Jane girl
+TM> add Philip boy
+TM> add Natalie girl
+TM> add Harry boy
+TM> add Lori girl
+TM> add Vincent boy
+TM> add Tiffany girl
+TM> add Bobby boy
+TM> add Alexis girl
+TM> add Johnny boy
+TM> add Kayla girl
+TM> add Logan boy
+TM> get Natalie
+FOUND: girl
+TM> get Juan
+FOUND: boy
+TM> get Cartman
+NOT FOUND
+TM> get MrGarrison
+NOT FOUND
+TM> size
+200 nodes
+TM> print
+        Zachary -> boy
+          Willie -> boy
+      William -> boy
+                  Wayne -> boy
+                Walter -> boy
+              Virginia -> girl
+                    Vincent -> boy
+                  Victoria -> girl
+                Tyler -> boy
+            Timothy -> boy
+              Tiffany -> girl
+          Thomas -> boy
+              Theresa -> girl
+            Terry -> boy
+              Teresa -> girl
+        Susan -> girl
+            Steven -> boy
+                Stephen -> boy
+              Stephanie -> girl
+                  Shirley -> girl
+                Sharon -> girl
+                    Sean -> boy
+                  Scott -> boy
+          Sarah -> girl
+              Sara -> girl
+            Sandra -> girl
+                    Samuel -> boy
+                  Samantha -> girl
+                Ryan -> boy
+                  Ruth -> girl
+                      Russell -> boy
+                    Roy -> boy
+                      Rose -> girl
+              Ronald -> boy
+                Roger -> boy
+    Robert -> boy
+      Richard -> boy
+          Rebecca -> girl
+            Raymond -> boy
+                  Randy -> boy
+                Ralph -> boy
+              Rachel -> girl
+                  Philip -> boy
+                Peter -> boy
+        Paul -> boy
+          Patrick -> boy
+  Patricia -> girl
+          Pamela -> girl
+              Olivia -> girl
+                Noah -> boy
+            Nicole -> girl
+        Nicholas -> boy
+          Nathan -> boy
+            Natalie -> girl
+      Nancy -> girl
+        Michelle -> girl
+    Michael -> boy
+        Melissa -> girl
+          Megan -> girl
+      Matthew -> boy
+Mary -> girl
+            Martha -> girl
+          Mark -> boy
+                Marilyn -> girl
+              Marie -> girl
+            Maria -> girl
+        Margaret -> girl
+            Madison -> girl
+              Louis -> boy
+                Lori -> girl
+                  Logan -> boy
+          Lisa -> girl
+      Linda -> girl
+                  Lawrence -> boy
+                Lauren -> girl
+              Laura -> girl
+                Larry -> boy
+                  Kyle -> boy
+            Kimberly -> girl
+                Kevin -> boy
+              Kenneth -> boy
+                  Kelly -> girl
+                    Keith -> boy
+                        Kayla -> girl
+                      Kathryn -> girl
+                Kathleen -> girl
+                  Katherine -> girl
+          Karen -> girl
+              Justin -> boy
+                Julie -> girl
+                      Julia -> girl
+                        Judy -> girl
+                    Judith -> girl
+                      Juan -> boy
+                  Joyce -> girl
+            Joshua -> boy
+        Joseph -> boy
+            Jose -> boy
+              Jordan -> boy
+          Jonathan -> boy
+            Johnny -> boy
+    John -> boy
+            Joe -> boy
+          Joan -> girl
+        Jessica -> girl
+            Jesse -> boy
+          Jerry -> boy
+            Jeremy -> boy
+      Jennifer -> girl
+          Jeffrey -> boy
+            Jean -> girl
+        Jason -> boy
+            Janice -> girl
+          Janet -> girl
+            Jane -> girl
+  James -> boy
+            Jacqueline -> girl
+          Jacob -> boy
+            Jack -> boy
+              Henry -> boy
+        Helen -> girl
+            Heather -> girl
+                Harry -> boy
+              Harold -> boy
+                Hannah -> girl
+          Gregory -> boy
+                Grace -> girl
+              Gloria -> girl
+            Gerald -> boy
+      George -> boy
+          Gary -> boy
+                Gabriel -> boy
+              Frank -> boy
+                  Frances -> girl
+                Evelyn -> girl
+                    Eugene -> boy
+                  Ethan -> boy
+            Eric -> boy
+              Emma -> girl
+        Emily -> girl
+    Elizabeth -> girl
+            Edward -> boy
+                Dylan -> boy
+              Douglas -> boy
+          Dorothy -> girl
+                Doris -> girl
+              Donna -> girl
+            Donald -> boy
+                    Diane -> girl
+                      Diana -> girl
+                  Dennis -> boy
+                    Denise -> girl
+                Debra -> girl
+              Deborah -> girl
+        David -> boy
+                Danielle -> girl
+              Daniel -> boy
+                Cynthia -> girl
+            Christopher -> boy
+              Christine -> girl
+                Christina -> girl
+                    Christian -> boy
+                  Cheryl -> girl
+          Charles -> boy
+                Catherine -> girl
+                  Carolyn -> girl
+              Carol -> girl
+                  Carl -> boy
+                    Bryan -> boy
+                      Bruce -> boy
+                        Brittany -> girl
+                Brian -> boy
+                  Brenda -> girl
+                    Brandon -> boy
+                        Bobby -> boy
+                      Billy -> boy
+                        Beverly -> girl
+            Betty -> girl
+              Benjamin -> boy
+      Barbara -> girl
+            Austin -> boy
+          Ashley -> girl
+            Arthur -> boy
+        Anthony -> boy
+            Anna -> girl
+                Ann -> girl
+              Angela -> girl
+          Andrew -> boy
+                Andrea -> girl
+              Amy -> girl
+                Amber -> girl
+            Amanda -> girl
+                Alice -> girl
+                  Alexis -> girl
+              Alexander -> boy
+                    Albert -> boy
+                      Alan -> boy
+                  Adam -> boy
+                    Abigail -> girl
+                Aaron -> boy
+TM> save test-results/big.tm
+TM> clear
+TM> get Lori
+NOT FOUND
+TM> get Dylan
+NOT FOUND
+TM> load test-results/big.tm
+TM> get Lori
+FOUND: girl
+TM> get Dylan
+FOUND: boy
+TM> add Cartman boy
+TM> get Cartman
+FOUND: boy
+TM> size
+201 nodes
+TM> quit
+#+END_SRC
+
+Check that the saved tree looks right.
+#+TESTY: use_valgrind=0
+#+TESTY: prefix=cat
+#+TESTY: program="cat test-results/big.tm"
+#+BEGIN_SRC sh
+Mary girl
+  James boy
+    Elizabeth girl
+      Barbara girl
+        Anthony boy
+          Andrew boy
+            Amanda girl
+              Alexander boy
+                Aaron boy
+                  Adam boy
+                    Abigail girl
+                    Albert boy
+                      Alan boy
+                Alice girl
+                  Alexis girl
+              Amy girl
+                Amber girl
+                Andrea girl
+            Anna girl
+              Angela girl
+                Ann girl
+          Ashley girl
+            Arthur boy
+            Austin boy
+        David boy
+          Charles boy
+            Betty girl
+              Benjamin boy
+              Carol girl
+                Brian boy
+                  Brenda girl
+                    Brandon boy
+                      Billy boy
+                        Beverly girl
+                        Bobby boy
+                  Carl boy
+                    Bryan boy
+                      Bruce boy
+                        Brittany girl
+                Catherine girl
+                  Carolyn girl
+            Christopher boy
+              Christine girl
+                Christina girl
+                  Cheryl girl
+                    Christian boy
+              Daniel boy
+                Cynthia girl
+                Danielle girl
+          Dorothy girl
+            Donald boy
+              Deborah girl
+                Debra girl
+                  Dennis boy
+                    Denise girl
+                    Diane girl
+                      Diana girl
+              Donna girl
+                Doris girl
+            Edward boy
+              Douglas boy
+                Dylan boy
+      George boy
+        Emily girl
+          Gary boy
+            Eric boy
+              Emma girl
+              Frank boy
+                Evelyn girl
+                  Ethan boy
+                    Eugene boy
+                  Frances girl
+                Gabriel boy
+        Helen girl
+          Gregory boy
+            Gerald boy
+              Gloria girl
+                Grace girl
+            Heather girl
+              Harold boy
+                Hannah girl
+                Harry boy
+          Jacob boy
+            Jack boy
+              Henry boy
+            Jacqueline girl
+    John boy
+      Jennifer girl
+        Jason boy
+          Janet girl
+            Jane girl
+            Janice girl
+          Jeffrey boy
+            Jean girl
+        Jessica girl
+          Jerry boy
+            Jeremy boy
+            Jesse boy
+          Joan girl
+            Joe boy
+      Linda girl
+        Joseph boy
+          Jonathan boy
+            Johnny boy
+            Jose boy
+              Jordan boy
+          Karen girl
+            Joshua boy
+              Justin boy
+                Julie girl
+                  Joyce girl
+                    Judith girl
+                      Juan boy
+                      Julia girl
+                        Judy girl
+            Kimberly girl
+              Kenneth boy
+                Kathleen girl
+                  Katherine girl
+                  Kelly girl
+                    Keith boy
+                      Kathryn girl
+                        Kayla girl
+                Kevin boy
+              Laura girl
+                Larry boy
+                  Kyle boy
+                Lauren girl
+                  Lawrence boy
+        Margaret girl
+          Lisa girl
+            Madison girl
+              Louis boy
+                Lori girl
+                  Logan boy
+          Mark boy
+            Maria girl
+              Marie girl
+                Marilyn girl
+            Martha girl
+  Patricia girl
+    Michael boy
+      Matthew boy
+        Melissa girl
+          Megan girl
+      Nancy girl
+        Michelle girl
+        Nicholas boy
+          Nathan boy
+            Natalie girl
+          Pamela girl
+            Nicole girl
+              Olivia girl
+                Noah boy
+    Robert boy
+      Richard boy
+        Paul boy
+          Patrick boy
+          Rebecca girl
+            Raymond boy
+              Rachel girl
+                Peter boy
+                  Philip boy
+                Ralph boy
+                  Randy boy
+      William boy
+        Susan girl
+          Sarah girl
+            Sandra girl
+              Ronald boy
+                Roger boy
+                Ryan boy
+                  Ruth girl
+                    Roy boy
+                      Rose girl
+                      Russell boy
+                  Samantha girl
+                    Samuel boy
+              Sara girl
+            Steven boy
+              Stephanie girl
+                Sharon girl
+                  Scott boy
+                    Sean boy
+                  Shirley girl
+                Stephen boy
+          Thomas boy
+            Terry boy
+              Teresa girl
+              Theresa girl
+            Timothy boy
+              Tiffany girl
+              Virginia girl
+                Tyler boy
+                  Victoria girl
+                    Vincent boy
+                Walter boy
+                  Wayne boy
+        Zachary boy
+          Willie boy
+#+END_SRC
+
+#+TESTY: program=./test_treemap_verify
+#+TESTY: prefix="prob3"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+#+END_SRC
