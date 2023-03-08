@@ -1,0 +1,112 @@
+#+TITLE: list_main application tests
+#+TESTY: PREFIX=list_main
+#+TESTY: PROGRAM='./list_main -echo'
+#+TESTY: USE_VALGRIND=1
+#+TESTY: PROMPT='list>'
+
+* Print then Exit
+Print the empty list and exit
+
+#+BEGIN_SRC sh
+Linked List Demo
+Commands:
+  print:          shows the current contents of the list
+  clear:          eliminates all elements from the list
+  exit:           exit the program
+  insert thing:   inserts the given string into the list
+  get index:      get the item at the given index
+  contains thing: determine if the given thing is in the list
+                  (NOT YET IMPLEMENTED)
+list> print
+list> exit
+#+END_SRC
+
+* Insert 3 and Print
+Add several items then print them back.
+
+#+BEGIN_SRC sh
+Linked List Demo
+Commands:
+  print:          shows the current contents of the list
+  clear:          eliminates all elements from the list
+  exit:           exit the program
+  insert thing:   inserts the given string into the list
+  get index:      get the item at the given index
+  contains thing: determine if the given thing is in the list
+                  (NOT YET IMPLEMENTED)
+list> insert Mario
+list> insert Luigi
+list> insert Toad
+list> print
+0: Luigi
+1: Mario
+2: Toad
+list> exit
+#+END_SRC
+
+* Get Command 
+Checks that the ~get N~ command works correctly to return the value at
+the Nth index of the list.
+
+#+BEGIN_SRC sh
+Linked List Demo
+Commands:
+  print:          shows the current contents of the list
+  clear:          eliminates all elements from the list
+  exit:           exit the program
+  insert thing:   inserts the given string into the list
+  get index:      get the item at the given index
+  contains thing: determine if the given thing is in the list
+                  (NOT YET IMPLEMENTED)
+list> get 0
+out of bounds
+list> get 5
+out of bounds
+list> insert apple
+list> insert pair
+list> insert banana
+list> print
+0: apple
+1: banana
+2: pair
+list> get 0
+0: apple
+list> get 1
+1: banana
+list> get 2
+2: pair
+list> get 3
+out of bounds
+list> exit
+#+END_SRC
+
+* Contains Items
+Add several items then print them back.
+
+#+BEGIN_SRC sh
+Linked List Demo
+Commands:
+  print:          shows the current contents of the list
+  clear:          eliminates all elements from the list
+  exit:           exit the program
+  insert thing:   inserts the given string into the list
+  get index:      get the item at the given index
+  contains thing: determine if the given thing is in the list
+                  (NOT YET IMPLEMENTED)
+list> insert Mario
+list> insert Luigi
+list> insert Toad
+list> insert Bowser
+list> insert Princess
+list> contains Mario
+'Mario' is present
+list> contains Luigi
+'Luigi' is present
+list> contains Princess
+'Princess' is present
+list> contains Gumba
+not found
+list> contains Bob-omb
+not found
+list> exit
+#+END_SRC
