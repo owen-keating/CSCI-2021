@@ -1,0 +1,232 @@
+                              ____________
+
+                               P4 WRITEUP
+                              ____________
+
+
+- Name: (FILL THIS in)
+- NetID: (THE kauf0095 IN kauf0095@umn.edu)
+
+Answer the questions below according to the project specification. Write
+your answers directly in this text file and submit it along with your
+code.
+
+
+PROBLEM 1: sumdiag_OPTM()
+=========================
+
+  Do your timing study on loginNN.cselabs.umn.edu
+
+
+(A) Paste Source Code
+~~~~~~~~~~~~~~~~~~~~~
+
+  Paste a copy of your source code for the function `sumdiag_OPTM()'
+
+  int sumdiag_OPTM(matrix_t *mat, vector_t *vec) {
+    int len = vec->len;
+    int rows = mat->rows;
+    int cols = mat->cols;
+    if(len != (rows + cols - 1)){
+      printf("sumdiag_base: bad sizes\n");
+      return 1;
+    }
+    int *vdata = vec->data;
+    int *mdata = mat->data;
+    for(int i=0; i<len; i++){
+      vdata[i] = 0;
+    }
+    for(int i = 0; i<rows; i++){
+      int x = i * cols;
+      for(int j = 0; j<cols; j++){
+        int adj = j - i - 1;
+        vdata[cols+adj] += mdata[x+j];
+      }
+    }
+    return 0;
+  }
+
+
+(B) Timing on loginNN.cselabs.umn.edu
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Paste a copy of the results of running `sumdiag_benchmark' on
+  loginNN.cselabs.umn.edu (like login01, login02, ..., login06) in the
+  space below which shows how your performance optimizations improved on
+  the baseline codes.
+
+  ==== Matrix Diagonal Sum Benchmark Version 3 ====
+  ------ Tuned for csel-remote-lnx-NN machines --------
+    SIZE       BASE       OPTM  SPDUP POINTS 
+     512 1.3035e-02 2.4640e-03   5.29   0.60 
+    1024 6.9439e-02 1.0259e-02   6.77   1.38 
+    1101 8.1440e-02 1.2314e-02   6.61   1.47 
+    2048 3.3273e-01 4.1916e-02   7.94   2.99 
+    4099 1.5906e+00 1.6799e-01   9.47   6.49 
+    6001 3.5631e+00 3.5924e-01   9.92   9.70 
+    8192 6.7798e+00 6.6829e-01  10.14  13.37 
+  RAW POINTS: 36.00
+  TOTAL POINTS: 35 / 35
+
+
+(C) Optimizations
+~~~~~~~~~~~~~~~~~
+
+  Describe in some detail the optimizations you used to speed the code
+  up.  THE CODE SHOULD CONTAIN SOME COMMENTS already to describe these
+  but in the section below, describe in English the techniques you used
+  to make the code run faster.  Format your descriptions into discrete
+  chunks such as.
+        Optimization 1: Blah bla blah... This should make run
+        faster because yakkety yakeety yak.
+
+        Optimization 2: Blah bla blah... This should make run
+        faster because yakkety yakeety yak.
+
+        ...  Optimization N: Blah bla blah... This should make run
+        faster because yakkety yakeety yak.
+  Full credit solutions will have a least THREE optimizations and
+  describe WHY these improved performance in at least a couple
+  sentences.
+
+  Optimization 1: The first optimization that I made was introducing
+  local variables to efficiently access vector length, number of rows
+  in the matrix, and number of columns in the matrix. This is more
+  efficient because these local variables will be stored in cache
+  memory when recently used in the function.
+
+  Optimization 2: The second optimization that I made was creating
+  pointer variables for the matrix and vector data. This optimization
+  will improve efficiency because it eliminates the need for function
+  calls to getter and setter methods to update the diagonal values.
+
+  Optimization 3: The third optimization that I made was traversing
+  through the matrix sequentially rather than one diagonal at a time.
+  This optimization will improve efficiency because adjacent array
+  indices will be stored on consecutive memory addresses which are
+  more accessible than moving between columns.
+
+
+PROBLEM 2: Timing Search Algorithms
+===================================
+
+  Do your timing study on loginNN.cselabs.umn.edu. In most cases, report
+  times larger than 1e-03 seconds as times shorter than this are
+  unreliable. Run searches for more repetitions to lengthen run times.
+
+
+(A) Min Size for Algorithmic Differences
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Determine the size of input array where one starts to see a measurable
+  difference in the performance of the linear and logarithmic
+  algorithms.  Produce a timing table which includes all algorithms
+  which clearly demonstrates an uptick in the times associated with some
+  while others remain much lower.  Identify what size this appears to be
+  a occur.
+
+  SHOW A TIMING TABLE to support your conclusions and ensure that the
+  times reported are larger that 1e-03.
+
+    SIZE  NSEARCH      array       list     binary       tree
+      32     1280 5.0000e-05 6.0000e-05 2.9000e-05 2.5000e-05
+      64     2560 1.3200e-04 2.2300e-04 4.2000e-05 3.3000e-05
+     128     5120 4.7200e-04 5.5500e-04 7.7000e-05 8.4000e-05
+     256    10240 7.6600e-04 1.0910e-03 1.2600e-04 1.1700e-04
+     512    20480 1.8260e-03 3.5530e-03 3.6300e-04 2.5700e-04
+    1024    40960 5.6560e-03 1.6753e-02 7.6700e-04 5.4700e-04
+    2048    81920 2.1223e-02 1.7322e-01 1.5210e-03 1.1230e-03
+    4096   163840 8.2332e-02 9.2812e-01 3.1200e-03 2.4100e-03
+    8192   327680 3.2903e-01 4.3576e+00 6.5470e-03 5.1780e-03
+  
+  The logarithmic search algorithms appear to overtake the linear search
+  algorithms in efficiency when the size of the dataset surpasses 512.
+  By analyzing the results from this table, I can determine that sorting
+  data is more important to efficiency in larger datasets.
+
+
+(B) Linear Search in List vs Array
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Determine whether the linear array and linked list search remain
+  approximately at the same performance level as size increases to large
+  data or whether one begins to become favorable over other. Determine
+  the approximate size at which this divergence becomes obvious. Discuss
+  reasons WHY this difference arises.
+
+  SHOW A TIMING TABLE to support your conclusions and ensure that the
+  times reported are larger that 1e-03.
+
+    SIZE  NSEARCH      array       list
+     512    15360 2.0850e-03 6.7260e-03
+    1024    30720 4.4660e-03 1.2141e-02
+    2048    61440 1.6302e-02 1.3880e-01
+    4096   122880 6.1728e-02 6.2537e-01
+    8192   245760 2.4811e-01 3.3794e+00
+   16384   491520 9.7962e-01 2.2518e+01
+
+  As the size of the data increases, search algorithms for linked lists become
+  increasingly less efficient in comparison to searching in linear arrays. The
+  divergence in efficiency becomes obvious when the list/array size surpasses
+  1024. While both data structures follow a similar search method of traversing
+  sequentially through values, linked lists suffer in large data sizes because
+  of the use of pointers, which are not stored in order by index.
+
+
+(C) Binary Search in Tree vs Array
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Compare the binary array search and binary tree search on small to
+  very large arrays. Determine if there is a size at which the
+  performance of these two begins to diverge. If so, describe why this
+  might be happening based on your understanding of the data structures
+  and the memory system. If not, describe why you believe there is
+  little performance difference between the two.
+
+  SHOW A TIMING TABLE to support your conclusions and ensure that the
+  times reported are larger that 1e-03.
+
+    SIZE  NSEARCH     binary       tree
+    2048    61440 2.2290e-03 1.6860e-03
+    4096   122880 3.8220e-03 1.8260e-03
+    8192   245760 5.0680e-03 3.9030e-03
+   16384   491520 1.0373e-02 9.0240e-03
+   32768   983040 2.1505e-02 1.8643e-02
+
+  As the size of the data increases, search algorithms for sorted arrays are
+  consistently as efficient in comparison to searching in binary trees. The data
+  structures are similar in that accessing data is done through a similar method.
+  While binary trees store data through pointers rather than memory addresses in
+  sorted arrays, both data structures will visit the same number of values when
+  searching to find a unique key.
+
+
+(D) Caching Effects on Algorithms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  It is commonly believed that memory systems that feature a Cache will
+  lead to arrays performing faster than linked structures such as Linked
+  Lists and Binary Search Trees. Describe whether your timings confirm
+  or refute this belief.  Address both types of algorithms in your
+  answer:
+
+  - What effects does Cache have on Linear Search in arrays and lists
+    and why?
+
+    Cache has an effect on linear search algorithms when the size of the
+    dataset increases because of the sequential ordering of array memory,
+    which allows recently used memory addresses that are stored in the
+    cache to be more accessible and therefore efficient in comparison to
+    the pointer values used in linked lists which are more likely to be
+    stored in main memory in large datasets.
+
+  - What effects does Cache have on Binary Search in arrays and trees
+    and why?
+
+    Cache does not have a significant effect on binary search algorithms
+    when considering the size and efficiency of datasets for sorted arrays
+    and binary trees. Sorted arrays are similar to linear arrays in that
+    consecutive indices are stored sequentially in memory making them easily
+    accessible for data recently stored in the cache. However, because of the
+    method used in binary search, the next search will not necessarily be in
+    close proximity to the recently used data.

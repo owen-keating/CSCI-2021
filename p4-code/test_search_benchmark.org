@@ -1,0 +1,105 @@
+#+TITLE: search_benchmark valgrind tests
+#+TESTY: ECHOING="both"
+#+TESTY: PROMPT="@>"
+#+TESTY: USE_VALGRIND='1'
+#+TESTY: PREFIX='prob2'
+
+* search_benchmark all
+Checks if running search_benchmark with no options leads to any
+valgrind errors.
+#+TESTY: program='./search_benchmark 8 11 1'
+#+TESTY: skipdiff=1
+#+BEGIN_SRC sh
+#+END_SRC
+
+Checks that the first line of output lists the appropriate data
+structure searches.
+#+TESTY: skipdiff=0
+#+TESTY: program='bash -v'
+#+TESTY: prompt=">>"
+#+TESTY: echoing="input"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+>> ./search_benchmark 1 11 1 | head -1
+    SIZE  NSEARCH      array       list     binary       tree 
+#+END_SRC
+
+* search_benchmark la
+Checks running search_benchmark with option 'la'
+
+#+TESTY: program='./search_benchmark 1 7 5 la'
+#+TESTY: skipdiff=1
+#+BEGIN_SRC sh
+#+END_SRC
+
+Checks that the first line of output lists the appropriate data
+structure searches.
+#+TESTY: skipdiff=0
+#+TESTY: program='bash -v'
+#+TESTY: prompt=">>"
+#+TESTY: echoing="input"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+>> ./search_benchmark 1 7 5 la | head -1
+    SIZE  NSEARCH      array
+#+END_SRC
+
+* search_benchmark la ba bt
+Checks running search_benchmark with options for 3 algorithms.
+#+TESTY: program='./search_benchmark 2 9 3 la ba bt'
+#+TESTY: skipdiff=1
+#+BEGIN_SRC sh
+#+END_SRC
+
+Checks that the first line of output lists the appropriate data
+structure searches.
+#+TESTY: skipdiff=0
+#+TESTY: program='bash -v'
+#+TESTY: prompt=">>"
+#+TESTY: echoing="input"
+#+TESTY: use_valgrind=0
+#+BEGIN_SRC sh
+>> ./search_benchmark 2 9 3 la ba bt | head -1
+    SIZE  NSEARCH      array       binary       tree 
+#+END_SRC
+
+* search_benchmark bt ll ba
+Checks running search_benchmark with options 3 algorithms in a
+different order.
+#+TESTY: program='./search_benchmark 1 8 4 bt ll ba'
+#+TESTY: post_filter='head -1'
+#+BEGIN_SRC sh
+    SIZE  NSEARCH       list     binary       tree 
+#+END_SRC
+
+# #+TESTY: skipdiff=0
+# #+TESTY: program='bash -v'
+# #+TESTY: prompt=">>"
+# #+TESTY: echoing="input"
+# #+TESTY: use_valgrind=0
+# #+BEGIN_SRC sh
+# >> ./search_benchmark 1 8 4 bt ll ba |head -1
+#     SIZE  NSEARCH       list     binary       tree 
+# #+END_SRC
+
+* search_benchmark ll time check
+Checks running search_benchmark with a linked list of a certain size
+takes an expected amount of time.
+
+#+TESTY: program='bash -v'
+#+TESTY: prompt=">>"
+#+TESTY: echoing="input"
+#+TESTY: use_valgrind=0
+#+TESTY: timeout='10s'
+
+#+BEGIN_SRC sh
+>> output=$(/usr/bin/time -f '%U seconds' ./search_benchmark 10 10 750 ll 2>&1 )
+>> runtime=$(echo $output | awk '{x=$1} END{if(x<1.0){print $1}}')
+>> msg=""
+>> msg+="Linked list run should take > 1.0 seconds\n"
+>> msg+="Took $runtime seconds\n"
+>> msg+="Check program logic\n"
+>> msg+="PROGRAM OUTPUT:\n"
+>> msg+="$output\n"
+>> if [[ "$runtime" != "" ]]; then printf "$msg"; fi
+#+END_SRC
