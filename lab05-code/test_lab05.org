@@ -1,0 +1,88 @@
+#+TITLE: Lab05 Tests
+#+TESTY: PREFIX="lab"
+#+TESTY: REPORT_FRACTION=1
+# #+TESTY: SHOW=1
+
+* QUIZ: QUESTIONS.txt
+This test determines if the answers in QUESTIONS.txt are correct. This
+file must be edited so that the correct ( ) choices are replaced with
+(X) AND no other changes are made to the file. If you are confident in
+your answers but think you may have made inadvertent changes to
+QUESTIONS.txt, you can try restoring it with the provided
+QUESTIONS.txt.bk file.
+
+The correct output for the test should be 
+: -: OK
+
+Note: the md5sum program is used for to verify and must be installed
+to work.
+
+#+TESTY: use_valgrind=0
+
+#+BEGIN_SRC sh
+>> ./test_quiz_filter QUESTIONS.txt | md5sum -c QUESTIONS.md5
+-: OK
+#+END_SRC
+
+
+* CODE: masking proram
+
+#+TESTY: program='./masking'
+#+TESTY: use_valgrind=1
+
+#+BEGIN_SRC sh
+x has only the 16th bit set
+bits:  0000 0000 0000 0001 0000 0000 0000 0000
+index:   28   24   20   16   12    8    4    0
+
+x as decimal: 65536
+x as octal  : 200000
+x as hex    : 10000
+
+set 19th bit as well
+bits:  0000 0000 0000 1001 0000 0000 0000 0000
+index:   28   24   20   16   12    8    4    0
+
+set 3rd bit as well
+bits:  0000 0000 0000 1001 0000 0000 0000 1000
+index:   28   24   20   16   12    8    4    0
+
+invert the bits
+bits:  1111 1111 1111 0110 1111 1111 1111 0111
+index:   28   24   20   16   12    8    4    0
+
+clear the 8th bit
+bits:  1111 1111 1111 0110 1111 1110 1111 0111
+index:   28   24   20   16   12    8    4    0
+
+clear the 25th bit
+bits:  1111 1101 1111 0110 1111 1110 1111 0111
+index:   28   24   20   16   12    8    4    0
+
+clear all bits via xor
+bits:  0000 0000 0000 0000 0000 0000 0000 0000
+index:   28   24   20   16   12    8    4    0
+
+place the pattern 110101 starting at bit 8
+bits:  0000 0000 0000 0000 0011 0101 0000 0000
+index:   28   24   20   16   12    8    4    0
+
+place the pattern 10011111 starting at bit 20
+bits:  0000 1001 1111 0000 0011 0101 0000 0000
+index:   28   24   20   16   12    8    4    0
+
+set y to be x shifted right by 4 bits
+bits:  0000 0000 1001 1111 0000 0011 0101 0000
+index:   28   24   20   16   12    8    4    0
+
+set y to be x shifted right by 24 bits
+bits:  0000 0000 0000 0000 0000 0000 0000 1001
+index:   28   24   20   16   12    8    4    0
+
+conditionally print 'x 13th bit SET' or 'x 13th bit CLEAR'
+x 13th bit SET
+
+conditionally print 'y 4th bit SET' or 'y 4th bit CLEAR'
+y 4th bit CLEAR
+#+END_SRC
+
