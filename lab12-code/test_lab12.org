@@ -1,0 +1,74 @@
+#+TITLE: Lab12 Tests
+#+TESTY: PREFIX="lab"
+#+TESTY: REPORT_FRACTION=1
+# #+TESTY: SHOW=1
+
+* QUIZ: QUESTIONS.txt
+This test determines if the answers in QUESTIONS.txt are correct. This
+file must be edited so that the correct ( ) choices are replaced with
+(X) AND no other changes are made to the file. If you are confident in
+your answers but think you may have made inadvertent changes to
+QUESTIONS.txt, you can try restoring it with the provided
+QUESTIONS.txt.bk file.
+
+The correct output for the test should be 
+: -: OK
+
+Note: the md5sum program is used for to verify and must be installed
+to work.
+
+#+TESTY: use_valgrind=0
+
+#+BEGIN_SRC sh
+>> ./test_quiz_filter QUESTIONS.txt | md5sum -c QUESTIONS.md5
+-: OK
+#+END_SRC
+
+
+* CODE: func_v_macro
+** Check Output Format
+Runs the ~func_v_macro~ program and checks that the output format
+matches the expected.
+
+#+TESTY: export resultfile=test-results/out.tmp
+#+TESTY: use_valgrind=0
+#+TESTY: timeout=10s
+
+#+BEGIN_SRC sh
+>> ./func_v_macro 100 50000 > $resultfile
+>> awk '{gsub(/[0-9]\.[0-9]{4}e.../,"1.2345e+00"); print}' $resultfile
+1.2345e+00 secs : V1 row_sums_func_p
+1.2345e+00 secs : V2 row_sums_func_s
+1.2345e+00 secs : V3 row_sums_macro
+1.2345e+00 secs : V4 row_sums_unroll4
+#+END_SRC
+
+** Valgrind Check
+Check that there are no memory problems with program.
+
+#+TESTY: use_valgrind=1
+#+TESTY: program='./func_v_macro 103 93'
+#+TESTY: skipdiff=1
+
+#+BEGIN_SRC sh
+Output Ignored, checking valgrind
+#+END_SRC
+
+
+# ** Unused
+# ### Skip timing ordering since it varies so much from one machine to the next
+#  AND that the timing results are ordered properly:
+# from slowest to fastest should be
+
+#  row_sums_function
+#     row_sums_macro
+#    row_sums_direct
+
+# This timing reflects running on csel-kh1250-NN Machines with the
+# parameters:
+# : >> ./func_v_macro 100 100000
+#
+# >> sort -rgk 2 $resultfile | awk '{$2="-"; print}'
+# row_sums_function: - secs
+# row_sums_macro: - secs
+# row_sums_direct: - secs

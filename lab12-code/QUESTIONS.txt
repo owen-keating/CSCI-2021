@@ -1,0 +1,216 @@
+                           __________________
+
+                            LAB 12 QUESTIONS
+                           __________________
+
+
+
+
+
+Lab Instructions
+================
+
+  Follow the instructions below to experiment with topics related to
+  this lab.
+  - For sections marked QUIZ, fill in an (X) for the appropriate
+    response in this file. Use the command `make test-quiz' to see if
+    all of your answers are correct.
+  - For sections marked CODE, complete the code indicated. Use the
+    command `make test-code' to check if your code is complete.
+  - DO NOT CHANGE any parts of this file except the QUIZ sections as it
+    may interfere with the tests otherwise.
+  - If your `QUESTIONS.txt' file seems corrupted, restore it by copying
+    over the `QUESTIONS.txt.bk' backup file.
+  - When you complete the exercises, check your answers with `make test'
+    and if all is well, create a zip file with `make zip' and upload it
+    to Gradescope. Ensure that the Autograder there reflects your local
+    results.
+  - IF YOU WORK IN A GROUP only one member needs to submit and then add
+    the names of their group.
+
+
+NOTE: Time on loginNN.cselabs.umn.edu
+=====================================
+
+  Timing comparisons below reflect the behavior of the benchmark on the
+  machines
+  ,----
+  | login01.cselabs.umn.edu  OR  csel-remote-lnx-01.cselabs.umn.edu
+  | ...
+  | login06.cselabs.umn.edu  OR  csel-remote-lnx-06.cselabs.umn.edu
+  `----
+  Run the benchmark there so that your timing allows you to answer quiz
+  questions correctly.
+
+
+CODE: `function_v_macro.c' Program
+==================================
+
+  There is nearly complete code provided in the `function_v_macro.c'
+  file which implements 4 variants of a `row_sums_XXX()' function.
+  Complete the TODO items for each of the 3 functions so that it
+  compiles and reports run times for the 3 variants.  Correct execution
+  will produce output that looks like the following:
+  ,----
+  | > ./func_v_macro 100 100000
+  | 1.2345e+00 secs : V1 row_sums_func_p
+  | 1.2345e+00 secs : V2 row_sums_func_s
+  | 1.2345e+00 secs : V3 row_sums_macro
+  | 1.2345e+00 secs : V4 row_sums_unroll4
+  `----
+  NOTE: the times above are not accurate but reflect the format of the
+  output.
+
+  You will analyze several aspects of the timing and reasons for the 3
+  different variants.
+
+
+QUIZ: Analyzing `function_v_macro.c' Runs
+=========================================
+
+  After completing the code in `func_v_macro.c', compile it via `make'
+  and then examine the timing results for the 4 variants by running on
+  the following parameters.
+  ,----
+  | # RUN ON csel-kh1250-NN machines like in project 4
+  | > ./func_v_macro 100 100000
+  | ...
+  `----
+
+
+ORDERING
+~~~~~~~~
+
+  Which of the following indicates the relative speed ordering of the 3
+  variants (slowest to fastest).
+  ,----
+  |       SLOWEST .................................... ..............................FASTEST
+  | - ( ) V4 row_sums_unroll4 / V3 row_sums_macro / V2 row_sums_func_s / V1 row_sums_func_p
+  | - ( ) V4 row_sums_unroll4 / V1 row_sums_func_p / V3 row_sums_macro / V2 row_sums_func_s
+  | - ( ) V1 row_sums_func_p / V3 row_sums_macro / V2 row_sums_func_s / V4 row_sums_unroll4
+  | - (X) V1 row_sums_func_p / V2 row_sums_func_s / V3 row_sums_macro / V4 row_sums_unroll4
+  `----
+
+
+V1 to V2
+~~~~~~~~
+
+  Examine the V1 and V2 versions of the `row_sums_XXX()'
+  functions. Which of the following best describes the difference
+  between these and its affect on performance.
+  - ( ) V1 uses pointers to structs while V2 deference's to have local
+    copies of the struct; V2 runs slightly SLOWER due to requiring more
+    overall memory to store a 2nd copy of the struct
+  - (X) V1 uses pointers to structs while V2 deference's to have local
+    copies of the struct; V2 runs slightly FASTER due to some data being
+    cached in registers rather than main memory
+  - ( ) V1 uses a Function call while V2 uses a Macro call. Since macro
+    calls inline code, V2 runs modestly FASTER.
+  - ( ) Trick question: these two versions are identical as they both
+    use structs and there is no difference in behavior between pointers
+    to structs and local / actual structs. They run at the SAME speed.
+
+
+Preprocessor Macro Expansion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Examine the results of running ONLY the compiler's preprocessor on the
+  program which can be done via the command:
+  ,----
+  | > gcc -E func_v_macro.c > preprocessed.c
+  `----
+
+  After running this command the file `preprocessed.c' now contains the
+  all text transformations made by the preprocessor to the original
+  source. The file will be quite long, ~2500 lines of code. What appears
+  for the first few thousand lines of code in the preprocessed file?
+  - (X) Lots of C type declarations and function prototypes for standard
+    functions like `atoi()' and `malloc()'; these are the results of
+    #include'ing header files. Some of the original C code appears after
+    the declarations.
+  - ( ) A long sequence of assembly instructions. These instructions are
+    what allow the C code to be loaded and run. The original C code
+    appears after the initial assembly.
+  - ( ) The translation of the original C code into assembly but before
+    optimization phases in the compiler.
+
+  Examine the code near the end of the `preprocessed.c' file.
+
+  Which of the following best describes how the V2 `row_sums_func_s()'
+  code has changed?
+  - (X) It has not changed much; only comments have been removed.
+  - ( ) The body of the `mget() / vset()' functions have been inserted
+    at the point they were called.
+  - ( ) An optimized assembly code version of these functions appears.
+
+  Which of the following best describes how the `row_sums_macro()' code
+  has changed?
+  - ( ) It has not changed much; only comments have been removed.
+  - (X) The body of the `MGET() / VSET()' functions have been inserted
+    at the point they were called.
+  - ( ) An optimized assembly code version of these functions appears.
+
+
+Function vs Macros Calls and Performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Which of the following are valid reasons that calling a function in a
+  tight computational loop might interfere with the compiler's ability
+  to produce fast code?
+  - ( ) Calling a function requires specific registers to be used to
+    pass arguments
+  - ( ) Calling a function means that all callee save registers might
+    change thus reducing the number of registers available for use in
+    the calling function.
+  - ( ) Calling a function jumps control to a different part of code
+    which may put more pressure on the instruction and data cache.
+  - (X) Actually all of these are reasons that functions calls mess up
+    optimization and this relation explains why the Macro versions
+    perform better as they force inlining of the function body enabling
+    further optimizations by the compiler.
+
+
+Loop Unrolling
+~~~~~~~~~~~~~~
+
+  Which of the following best describes the differences between the code
+  in the V3 `row_sums_macro()' and V4 `V4 row_sums_unroll4()' functions?
+
+  - ( ) V3 iterates through each matrix row by 1 element at time while
+    V4 iterates 4 elements at a time
+  - ( ) V3 adds on single row element to a single sum per iteration
+    while V4 adds 4 different elements to 4 different sums
+  - ( ) Because of the looping pattern in V4, it requires a second loop
+    to "finish" elements at the ends of rows when the length is not
+    evenly divisible by 4
+  - (X) All of these items are true
+  - ( ) None of these apply but there are other differences
+
+  Which of the following best explains the speed differences between V3
+  and V4?
+  - ( ) V4 is FASTER than V3 because its looping pattern favors cache
+    more effectively thereby improving throughput: the processor has
+    more available data to work on in V4 than in V3
+  - (X) V4 is FASTER than V3 because each loop iteration has more
+    independent arithmetic operations that can be executed; this favors
+    efficient execution in pipelined / superscalar processors
+  - ( ) V4 is SLOWER than V3 because it must add a second loop which
+    creates more operations leading to worse performance
+  - ( ) V4 is SLOWER than V3 because the additional complexities and
+    conditionals in its code create hazards in the processor pipeline
+    while P3 has more straight-forward code for the architecture
+
+
+OPTIONAL: more_macros.c
+~~~~~~~~~~~~~~~~~~~~~~~
+
+  You can observe some other uses for `#define' macros in the file
+  `more_macros.c'. Again, one can preprocess the C file and observer the
+  results using a compiler invocation like
+  ,----
+  | >> gcc -E more_macros.c > preprocessed.c
+  `----
+  Examining `preprocessed.c' will show where various capitalized macros
+  have been substituted for their definitions. This includes the useful
+  `__FILE__' and `__LINE__' macros that are provided in the C standard
+  to help print useful debugging information during program runs.
