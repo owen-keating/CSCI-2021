@@ -1,0 +1,65 @@
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'my_pow'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+Found 'my_pow' in symbol table
+- 53 size
+- 1 section index
+- 18 info
+Calculating location of 'my_pow' in .text section
+- 0xb preferred address of function (st_value)
+- 0x0 preferred address of .text section
+- 11 offset in .text of start of function
+- 0x600000000040 virtual address of .text section
+- 0x60000000004b virtual address of function
+
+MODE: call
+func_type: int (*)(int,int)
+running function with arguments (7,5)
+returned: 16807

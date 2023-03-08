@@ -1,0 +1,43 @@
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 694408 bytes from start of file
+- 30 sections total
+- 0x6000000a9888 section header virtual address
+Section Header Names in Section 29
+- 694076 bytes from start of file
+- 327 total bytes
+- 0x6000000a973c .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .note.gnu.property
+[ 2]: .note.gnu.build-id
+[ 3]: .note.ABI-tag
+[ 4]: .rela.plt
+[ 5]: .init
+[ 6]: .plt
+[ 7]: .text
+[ 8]: __libc_freeres_fn
+[ 9]: .fini
+[10]: .rodata
+[11]: .stapsdt.base
+[12]: .eh_frame
+[13]: .gcc_except_table
+[14]: .tdata
+[15]: .tbss
+[16]: .init_array
+[17]: .fini_array
+[18]: .data.rel.ro
+[19]: .got
+[20]: .got.plt
+[21]: .data
+[22]: __libc_subfreeres
+[23]: __libc_IO_vtables
+[24]: __libc_atexit
+[25]: .bss
+[26]: __libc_freeres_ptrs
+[27]: .comment
+[28]: .note.stapsdt
+[29]: .shstrtab
+
+ERROR: Couldn't find symbol table

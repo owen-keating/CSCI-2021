@@ -1,0 +1,15 @@
+==329839== Memcheck, a memory error detector
+==329839== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==329839== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==329839== Command: ./findfunc test-input/somefuncs.o my_pow call int\ (*)(int,int) 2 8
+==329839== Parent PID: 329838
+==329839== 
+==329839== 
+==329839== HEAP SUMMARY:
+==329839==     in use at exit: 0 bytes in 0 blocks
+==329839==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==329839== 
+==329839== All heap blocks were freed -- no leaks are possible
+==329839== 
+==329839== For lists of detected and suppressed errors, rerun with: -s
+==329839== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

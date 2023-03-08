@@ -1,0 +1,1425 @@
+#+TITLE: Tests for findfunc
+#+TESTY: PREFIX="findfunc"
+#+TESTY: USE_VALGRIND=1
+
+# NOTE: some tests use multiple subtests making it harder to
+# regenerate tests via testy-regen
+
+* somefuncs.o return_five print
+Runs on somefuncs.o, print out bytes of the return_five function.
+#+TESTY: program='./findfunc test-input/somefuncs.o return_five print'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'return_five'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+Found 'return_five' in symbol table
+- 11 size
+- 1 section index
+- 18 info
+Calculating location of 'return_five' in .text section
+- 0x0 preferred address of function (st_value)
+- 0x0 preferred address of .text section
+- 0 offset in .text of start of function
+- 0x600000000040 virtual address of .text section
+- 0x600000000040 virtual address of function
+
+MODE: print
+11 bytes of function 'return_five'
+0000: 55 48 89 e5 b8 05 00 00 
+0008: 00 5d c3 
+#+END_SRC
+
+* somefuncs.o meaning_of_life print 
+Runs on somefuncs.o, print out bytes of the meaning_of_life function.
+#+TESTY: program='./findfunc test-input/somefuncs.o meaning_of_life print'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'meaning_of_life'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+Found 'meaning_of_life' in symbol table
+- 19 size
+- 1 section index
+- 18 info
+Calculating location of 'meaning_of_life' in .text section
+- 0x5d preferred address of function (st_value)
+- 0x0 preferred address of .text section
+- 93 offset in .text of start of function
+- 0x600000000040 virtual address of .text section
+- 0x60000000009d virtual address of function
+
+MODE: print
+19 bytes of function 'meaning_of_life'
+0000: 55 48 89 e5 c7 45 fc 15 
+0008: 00 00 00 d1 65 fc 8b 45 
+0010: fc 5d c3 
+#+END_SRC
+
+* somefuncs.o my_pow print 
+Runs on somefuncs.o, print out bytes of the my_pow function.
+#+TESTY: program='./findfunc test-input/somefuncs.o my_pow print'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'my_pow'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+Found 'my_pow' in symbol table
+- 53 size
+- 1 section index
+- 18 info
+Calculating location of 'my_pow' in .text section
+- 0xb preferred address of function (st_value)
+- 0x0 preferred address of .text section
+- 11 offset in .text of start of function
+- 0x600000000040 virtual address of .text section
+- 0x60000000004b virtual address of function
+
+MODE: print
+53 bytes of function 'my_pow'
+0000: 55 48 89 e5 89 7d ec 89 
+0008: 75 e8 c7 45 f8 01 00 00 
+0010: 00 c7 45 fc 00 00 00 00 
+0018: eb 0e 8b 45 f8 0f af 45 
+0020: ec 89 45 f8 83 45 fc 01 
+0028: 8b 45 fc 3b 45 e8 7c ea 
+0030: 8b 45 f8 5d c3 
+#+END_SRC
+
+* somefuncs.o triple print 
+Runs on somefuncs.o, print out bytes of the my_pow function.
+#+TESTY: program='./findfunc test-input/somefuncs.o triple print'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'triple'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+Found 'triple' in symbol table
+- 29 size
+- 1 section index
+- 18 info
+Calculating location of 'triple' in .text section
+- 0x40 preferred address of function (st_value)
+- 0x0 preferred address of .text section
+- 64 offset in .text of start of function
+- 0x600000000040 virtual address of .text section
+- 0x600000000080 virtual address of function
+
+MODE: print
+29 bytes of function 'triple'
+0000: 55 48 89 e5 48 89 7d f8 
+0008: 48 8b 45 f8 8b 10 89 d0 
+0010: 01 c0 01 c2 48 8b 45 f8 
+0018: 89 10 90 5d c3 
+#+END_SRC
+
+* mymain.o return_seven print 
+Runs on mymain.o, print out bytes of the return_seven function.
+#+TESTY: program='./findfunc test-input/mymain.o return_seven print'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 872 bytes from start of file
+- 14 sections total
+- 0x600000000368 section header virtual address
+Section Header Names in Section 13
+- 752 bytes from start of file
+- 116 total bytes
+- 0x6000000002f0 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .rela.text
+[ 3]: .data
+[ 4]: .bss
+[ 5]: .rodata
+[ 6]: .comment
+[ 7]: .note.GNU-stack
+[ 8]: .note.gnu.property
+[ 9]: .eh_frame
+[10]: .rela.eh_frame
+[11]: .symtab
+[12]: .strtab
+[13]: .shstrtab
+
+.symtab located
+- 344 bytes from start of file
+- 192 bytes total size
+- 24 bytes per entry
+- 8 number of entries
+- 0x600000000158 .symtab virtual addres
+.strtab located
+- 536 bytes from start of file
+- 43 total bytes in section
+- 0x600000000218 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'return_seven'
+[ 0]: 
+[ 1]: mymain.c
+[ 2]: 
+[ 3]: 
+[ 4]: main
+[ 5]: puts
+[ 6]: say_hello
+[ 7]: return_seven
+
+Found 'return_seven' in symbol table
+- 11 size
+- 1 section index
+- 18 info
+Calculating location of 'return_seven' in .text section
+- 0x3f preferred address of function (st_value)
+- 0x0 preferred address of .text section
+- 63 offset in .text of start of function
+- 0x600000000040 virtual address of .text section
+- 0x60000000007f virtual address of function
+
+MODE: print
+11 bytes of function 'return_seven'
+0000: 55 48 89 e5 b8 07 00 00 
+0008: 00 5d c3 
+#+END_SRC
+
+* mymain return_seven print 
+Runs on mymain, print out bytes of the return_seven function.
+#+TESTY: program='./findfunc test-input/mymain return_seven print'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 18256 bytes from start of file
+- 37 sections total
+- 0x600000004750 section header virtual address
+Section Header Names in Section 36
+- 17877 bytes from start of file
+- 374 total bytes
+- 0x6000000045d5 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .interp
+[ 2]: .note.gnu.property
+[ 3]: .note.gnu.build-id
+[ 4]: .note.ABI-tag
+[ 5]: .gnu.hash
+[ 6]: .dynsym
+[ 7]: .dynstr
+[ 8]: .gnu.version
+[ 9]: .gnu.version_r
+[10]: .rela.dyn
+[11]: .rela.plt
+[12]: .init
+[13]: .plt
+[14]: .text
+[15]: .fini
+[16]: .rodata
+[17]: .eh_frame_hdr
+[18]: .eh_frame
+[19]: .init_array
+[20]: .fini_array
+[21]: .dynamic
+[22]: .got
+[23]: .got.plt
+[24]: .data
+[25]: .bss
+[26]: .comment
+[27]: .debug_aranges
+[28]: .debug_info
+[29]: .debug_abbrev
+[30]: .debug_line
+[31]: .debug_str
+[32]: .debug_line_str
+[33]: .debug_rnglists
+[34]: .symtab
+[35]: .strtab
+[36]: .shstrtab
+
+.symtab located
+- 16432 bytes from start of file
+- 936 bytes total size
+- 24 bytes per entry
+- 39 number of entries
+- 0x600000004030 .symtab virtual addres
+.strtab located
+- 17368 bytes from start of file
+- 509 total bytes in section
+- 0x6000000043d8 .strtab virtual addres
+.text located
+- 4160 bytes offset from start of file
+- 0x1040 preferred address for .text
+- 0x600000001040 .text virtual addres
+
+Scanning Symbol Table for symbol 'return_seven'
+[ 0]: 
+[ 1]: abi-note.c
+[ 2]: __abi_tag
+[ 3]: init.c
+[ 4]: crtstuff.c
+[ 5]: deregister_tm_clones
+[ 6]: register_tm_clones
+[ 7]: __do_global_dtors_aux
+[ 8]: completed.0
+[ 9]: __do_global_dtors_aux_fini_array_entry
+[10]: frame_dummy
+[11]: __frame_dummy_init_array_entry
+[12]: mymain.c
+[13]: crtstuff.c
+[14]: __FRAME_END__
+[15]: 
+[16]: _DYNAMIC
+[17]: __GNU_EH_FRAME_HDR
+[18]: _GLOBAL_OFFSET_TABLE_
+[19]: __libc_start_main@GLIBC_2.34
+[20]: _ITM_deregisterTMCloneTable
+[21]: data_start
+[22]: puts@GLIBC_2.2.5
+[23]: _edata
+[24]: _fini
+[25]: __data_start
+[26]: __gmon_start__
+[27]: __dso_handle
+[28]: _IO_stdin_used
+[29]: _end
+[30]: _start
+[31]: return_seven
+[32]: __bss_start
+[33]: main
+[34]: say_hello
+[35]: __TMC_END__
+[36]: _ITM_registerTMCloneTable
+[37]: __cxa_finalize@GLIBC_2.2.5
+[38]: _init
+
+Found 'return_seven' in symbol table
+- 11 size
+- 14 section index
+- 18 info
+Calculating location of 'return_seven' in .text section
+- 0x1178 preferred address of function (st_value)
+- 0x1040 preferred address of .text section
+- 312 offset in .text of start of function
+- 0x600000001040 virtual address of .text section
+- 0x600000001178 virtual address of function
+
+MODE: print
+11 bytes of function 'return_seven'
+0000: 55 48 89 e5 b8 07 00 00 
+0008: 00 5d c3 
+#+END_SRC
+
+* somefuncs.o return_five call
+Runs on somefuncs.o, call the return_five function which takes no
+arguments
+#+TESTY: program='./findfunc test-input/somefuncs.o return_five call "int (*)(void)"'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'return_five'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+Found 'return_five' in symbol table
+- 11 size
+- 1 section index
+- 18 info
+Calculating location of 'return_five' in .text section
+- 0x0 preferred address of function (st_value)
+- 0x0 preferred address of .text section
+- 0 offset in .text of start of function
+- 0x600000000040 virtual address of .text section
+- 0x600000000040 virtual address of function
+
+MODE: call
+func_type: int (*)(void)
+running function (no arguments)
+returned: 5
+#+END_SRC
+
+* somefuncs.o meaning_of_life call
+Runs on somefuncs.o, call the meaning_of_life function which takes no
+arguments
+#+TESTY: program='./findfunc test-input/somefuncs.o meaning_of_life call "int (*)(void)"'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'meaning_of_life'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+Found 'meaning_of_life' in symbol table
+- 19 size
+- 1 section index
+- 18 info
+Calculating location of 'meaning_of_life' in .text section
+- 0x5d preferred address of function (st_value)
+- 0x0 preferred address of .text section
+- 93 offset in .text of start of function
+- 0x600000000040 virtual address of .text section
+- 0x60000000009d virtual address of function
+
+MODE: call
+func_type: int (*)(void)
+running function (no arguments)
+returned: 42
+#+END_SRC
+
+* somefuncs.o my_pow call 2 8
+Runs on somefuncs.o, call the my_pow function which takes 2 arguments
+and returns an int.
+#+TESTY: program='./findfunc test-input/somefuncs.o my_pow call "int (*)(int,int)" 2 8'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'my_pow'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+Found 'my_pow' in symbol table
+- 53 size
+- 1 section index
+- 18 info
+Calculating location of 'my_pow' in .text section
+- 0xb preferred address of function (st_value)
+- 0x0 preferred address of .text section
+- 11 offset in .text of start of function
+- 0x600000000040 virtual address of .text section
+- 0x60000000004b virtual address of function
+
+MODE: call
+func_type: int (*)(int,int)
+running function with arguments (2,8)
+returned: 256
+#+END_SRC
+
+* somefuncs.o my_pow call 7 5 
+Runs on somefuncs.o, call the my_pow function which takes 2 arguments
+and returns an int.
+#+TESTY: program='./findfunc test-input/somefuncs.o my_pow call "int (*)(int,int)" 7 5'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'my_pow'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+Found 'my_pow' in symbol table
+- 53 size
+- 1 section index
+- 18 info
+Calculating location of 'my_pow' in .text section
+- 0xb preferred address of function (st_value)
+- 0x0 preferred address of .text section
+- 11 offset in .text of start of function
+- 0x600000000040 virtual address of .text section
+- 0x60000000004b virtual address of function
+
+MODE: call
+func_type: int (*)(int,int)
+running function with arguments (7,5)
+returned: 16807
+#+END_SRC
+
+* somefuncs.o triple call 14
+Runs on somefuncs.o, call the my_pow function which takes an int
+pointer arg.
+#+TESTY: program='./findfunc test-input/somefuncs.o triple call "void (*)(int*)" 14'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'triple'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+Found 'triple' in symbol table
+- 29 size
+- 1 section index
+- 18 info
+Calculating location of 'triple' in .text section
+- 0x40 preferred address of function (st_value)
+- 0x0 preferred address of .text section
+- 64 offset in .text of start of function
+- 0x600000000040 virtual address of .text section
+- 0x600000000080 virtual address of function
+
+MODE: call
+func_type: void (*)(int*)
+running function, arg points to 14
+arg is now: 42
+#+END_SRC
+
+* somefuncs.o triple call 33
+Runs on somefuncs.o, call the my_pow function which takes an int
+pointer arg.
+#+TESTY: program='./findfunc test-input/somefuncs.o triple call "void (*)(int*)" 33'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'triple'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+Found 'triple' in symbol table
+- 29 size
+- 1 section index
+- 18 info
+Calculating location of 'triple' in .text section
+- 0x40 preferred address of function (st_value)
+- 0x0 preferred address of .text section
+- 64 offset in .text of start of function
+- 0x600000000040 virtual address of .text section
+- 0x600000000080 virtual address of function
+
+MODE: call
+func_type: void (*)(int*)
+running function, arg points to 33
+arg is now: 99
+#+END_SRC
+
+* mymain.o return_seven call
+Runs on mymain.o, call the return_seven function which takes no
+arguments.
+#+TESTY: program='./findfunc test-input/mymain.o return_seven call "int (*)(void)"'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 872 bytes from start of file
+- 14 sections total
+- 0x600000000368 section header virtual address
+Section Header Names in Section 13
+- 752 bytes from start of file
+- 116 total bytes
+- 0x6000000002f0 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .rela.text
+[ 3]: .data
+[ 4]: .bss
+[ 5]: .rodata
+[ 6]: .comment
+[ 7]: .note.GNU-stack
+[ 8]: .note.gnu.property
+[ 9]: .eh_frame
+[10]: .rela.eh_frame
+[11]: .symtab
+[12]: .strtab
+[13]: .shstrtab
+
+.symtab located
+- 344 bytes from start of file
+- 192 bytes total size
+- 24 bytes per entry
+- 8 number of entries
+- 0x600000000158 .symtab virtual addres
+.strtab located
+- 536 bytes from start of file
+- 43 total bytes in section
+- 0x600000000218 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'return_seven'
+[ 0]: 
+[ 1]: mymain.c
+[ 2]: 
+[ 3]: 
+[ 4]: main
+[ 5]: puts
+[ 6]: say_hello
+[ 7]: return_seven
+
+Found 'return_seven' in symbol table
+- 11 size
+- 1 section index
+- 18 info
+Calculating location of 'return_seven' in .text section
+- 0x3f preferred address of function (st_value)
+- 0x0 preferred address of .text section
+- 63 offset in .text of start of function
+- 0x600000000040 virtual address of .text section
+- 0x60000000007f virtual address of function
+
+MODE: call
+func_type: int (*)(void)
+running function (no arguments)
+returned: 7
+#+END_SRC
+
+* mymain return_seven call
+Runs on mymain, call the return_seven function which takes no
+arguments.
+#+TESTY: program='./findfunc test-input/mymain return_seven call "int (*)(void)"'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 18256 bytes from start of file
+- 37 sections total
+- 0x600000004750 section header virtual address
+Section Header Names in Section 36
+- 17877 bytes from start of file
+- 374 total bytes
+- 0x6000000045d5 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .interp
+[ 2]: .note.gnu.property
+[ 3]: .note.gnu.build-id
+[ 4]: .note.ABI-tag
+[ 5]: .gnu.hash
+[ 6]: .dynsym
+[ 7]: .dynstr
+[ 8]: .gnu.version
+[ 9]: .gnu.version_r
+[10]: .rela.dyn
+[11]: .rela.plt
+[12]: .init
+[13]: .plt
+[14]: .text
+[15]: .fini
+[16]: .rodata
+[17]: .eh_frame_hdr
+[18]: .eh_frame
+[19]: .init_array
+[20]: .fini_array
+[21]: .dynamic
+[22]: .got
+[23]: .got.plt
+[24]: .data
+[25]: .bss
+[26]: .comment
+[27]: .debug_aranges
+[28]: .debug_info
+[29]: .debug_abbrev
+[30]: .debug_line
+[31]: .debug_str
+[32]: .debug_line_str
+[33]: .debug_rnglists
+[34]: .symtab
+[35]: .strtab
+[36]: .shstrtab
+
+.symtab located
+- 16432 bytes from start of file
+- 936 bytes total size
+- 24 bytes per entry
+- 39 number of entries
+- 0x600000004030 .symtab virtual addres
+.strtab located
+- 17368 bytes from start of file
+- 509 total bytes in section
+- 0x6000000043d8 .strtab virtual addres
+.text located
+- 4160 bytes offset from start of file
+- 0x1040 preferred address for .text
+- 0x600000001040 .text virtual addres
+
+Scanning Symbol Table for symbol 'return_seven'
+[ 0]: 
+[ 1]: abi-note.c
+[ 2]: __abi_tag
+[ 3]: init.c
+[ 4]: crtstuff.c
+[ 5]: deregister_tm_clones
+[ 6]: register_tm_clones
+[ 7]: __do_global_dtors_aux
+[ 8]: completed.0
+[ 9]: __do_global_dtors_aux_fini_array_entry
+[10]: frame_dummy
+[11]: __frame_dummy_init_array_entry
+[12]: mymain.c
+[13]: crtstuff.c
+[14]: __FRAME_END__
+[15]: 
+[16]: _DYNAMIC
+[17]: __GNU_EH_FRAME_HDR
+[18]: _GLOBAL_OFFSET_TABLE_
+[19]: __libc_start_main@GLIBC_2.34
+[20]: _ITM_deregisterTMCloneTable
+[21]: data_start
+[22]: puts@GLIBC_2.2.5
+[23]: _edata
+[24]: _fini
+[25]: __data_start
+[26]: __gmon_start__
+[27]: __dso_handle
+[28]: _IO_stdin_used
+[29]: _end
+[30]: _start
+[31]: return_seven
+[32]: __bss_start
+[33]: main
+[34]: say_hello
+[35]: __TMC_END__
+[36]: _ITM_registerTMCloneTable
+[37]: __cxa_finalize@GLIBC_2.2.5
+[38]: _init
+
+Found 'return_seven' in symbol table
+- 11 size
+- 14 section index
+- 18 info
+Calculating location of 'return_seven' in .text section
+- 0x1178 preferred address of function (st_value)
+- 0x1040 preferred address of .text section
+- 312 offset in .text of start of function
+- 0x600000001040 virtual address of .text section
+- 0x600000001178 virtual address of function
+
+MODE: call
+func_type: int (*)(void)
+running function (no arguments)
+returned: 7
+#+END_SRC
+
+* Wrong Magic Bytes
+If wrong magic bytes occur at the beginning of the file, bail out
+immediately 
+#+TESTY: program='./findfunc test-input/mymain.c return_seven print'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+ERROR: Magic bytes wrong, this is not an ELF file
+#+END_SRC
+
+* Missing Symbol Table
+Checks that when the symbol table is not found an error message is
+printed. Symbol tables can be stripped out of executables via the
+'strip' command.
+#+TESTY: program='./findfunc test-input/stripped_mymain return_seven print'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 694408 bytes from start of file
+- 30 sections total
+- 0x6000000a9888 section header virtual address
+Section Header Names in Section 29
+- 694076 bytes from start of file
+- 327 total bytes
+- 0x6000000a973c .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .note.gnu.property
+[ 2]: .note.gnu.build-id
+[ 3]: .note.ABI-tag
+[ 4]: .rela.plt
+[ 5]: .init
+[ 6]: .plt
+[ 7]: .text
+[ 8]: __libc_freeres_fn
+[ 9]: .fini
+[10]: .rodata
+[11]: .stapsdt.base
+[12]: .eh_frame
+[13]: .gcc_except_table
+[14]: .tdata
+[15]: .tbss
+[16]: .init_array
+[17]: .fini_array
+[18]: .data.rel.ro
+[19]: .got
+[20]: .got.plt
+[21]: .data
+[22]: __libc_subfreeres
+[23]: __libc_IO_vtables
+[24]: __libc_atexit
+[25]: .bss
+[26]: __libc_freeres_ptrs
+[27]: .comment
+[28]: .note.stapsdt
+[29]: .shstrtab
+
+ERROR: Couldn't find symbol table
+#+END_SRC
+
+* somefuncs.o missing symbol 1
+Print an error due to requested symbol not being present.
+#+TESTY: program='./findfunc test-input/somefuncs.o not_there print'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'not_there'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+ERROR: Symbol 'not_there' not found in symbol table
+#+END_SRC
+
+* somefuncs.o missing symbol 2
+Print an error due to requested symbol not being present.
+#+TESTY: program='./findfunc test-input/somefuncs.o not_there call "int (*)(int,int)" 2 8'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'not_there'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+ERROR: Symbol 'not_there' not found in symbol table
+#+END_SRC
+
+* somefuncs.o not a function 1
+Print an error due to requested symbol not being a function.
+#+TESTY: program='./findfunc test-input/somefuncs.o global_int print'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'global_int'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+Found 'global_int' in symbol table
+- 4 size
+- 2 section index
+- 17 info
+ERROR: 'global_int' is not a function
+#+END_SRC
+
+* somefuncs.o not a function 2
+Print an error due to requested symbol not being a function.
+#+TESTY: program='./findfunc test-input/somefuncs.o an_array call "void (*)(int*)"'
+#+BEGIN_SRC text
+file_bytes at: 0x600000000000
+Section Headers Found:
+- 904 bytes from start of file
+- 12 sections total
+- 0x600000000388 section header virtual address
+Section Header Names in Section 11
+- 800 bytes from start of file
+- 103 total bytes
+- 0x600000000320 .shstrtab virtual address
+
+Scanning Section Headers for Relevant Sections
+[ 0]: 
+[ 1]: .text
+[ 2]: .data
+[ 3]: .bss
+[ 4]: .comment
+[ 5]: .note.GNU-stack
+[ 6]: .note.gnu.property
+[ 7]: .eh_frame
+[ 8]: .rela.eh_frame
+[ 9]: .symtab
+[10]: .strtab
+[11]: .shstrtab
+
+.symtab located
+- 408 bytes from start of file
+- 216 bytes total size
+- 24 bytes per entry
+- 9 number of entries
+- 0x600000000198 .symtab virtual addres
+.strtab located
+- 624 bytes from start of file
+- 75 total bytes in section
+- 0x600000000270 .strtab virtual addres
+.text located
+- 64 bytes offset from start of file
+- 0x0 preferred address for .text
+- 0x600000000040 .text virtual addres
+
+Scanning Symbol Table for symbol 'an_array'
+[ 0]: 
+[ 1]: somefuncs.c
+[ 2]: 
+[ 3]: return_five
+[ 4]: global_int
+[ 5]: my_pow
+[ 6]: an_array
+[ 7]: triple
+[ 8]: meaning_of_life
+
+Found 'an_array' in symbol table
+- 6 size
+- 2 section index
+- 17 info
+ERROR: 'an_array' is not a function
+#+END_SRC
+

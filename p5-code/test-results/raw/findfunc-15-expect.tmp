@@ -1,0 +1,2 @@
+file_bytes at: 0x600000000000
+ERROR: Magic bytes wrong, this is not an ELF file
