@@ -1,0 +1,66 @@
+#+TITLE: coins_main Tests
+#+TESTY: PREFIX="prob1"
+#+TESTY: USE_VALGRIND=1
+
+* All Tests
+
+** 0 Cents
+#+TESTY: program='./coins_main 0'
+
+#+BEGIN_SRC text
+0 cents is...
+0 quarters
+0 dimes
+0 nickels
+0 pennies
+which is 0 cents
+#+END_SRC
+
+** 27 Cents
+#+TESTY: program='./coins_main 27'
+
+#+BEGIN_SRC text
+27 cents is...
+1 quarters
+0 dimes
+0 nickels
+2 pennies
+which is 27 cents
+#+END_SRC
+
+** 49 Cents
+#+TESTY: program='./coins_main 49'
+
+#+BEGIN_SRC text
+49 cents is...
+1 quarters
+2 dimes
+0 nickels
+4 pennies
+which is 49 cents
+#+END_SRC
+
+** 62 Cents
+#+TESTY: program='./coins_main 62'
+
+#+BEGIN_SRC text
+62 cents is...
+2 quarters
+1 dimes
+0 nickels
+2 pennies
+which is 62 cents
+#+END_SRC
+
+** 88 Cents
+#+TESTY: program='./coins_main 88'
+
+#+BEGIN_SRC text
+88 cents is...
+3 quarters
+1 dimes
+0 nickels
+3 pennies
+which is 88 cents
+#+END_SRC
+

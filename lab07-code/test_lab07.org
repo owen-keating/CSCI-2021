@@ -1,0 +1,90 @@
+#+TITLE: Lab07 Tests
+#+TESTY: PREFIX="lab"
+#+TESTY: REPORT_FRACTION=1
+# #+TESTY: SHOW=1
+
+* QUIZ: QUESTIONS.txt
+This test determines if the answers in QUESTIONS.txt are correct. This
+file must be edited so that the correct ( ) choices are replaced with
+(X) AND no other changes are made to the file. If you are confident in
+your answers but think you may have made inadvertent changes to
+QUESTIONS.txt, you can try restoring it with the provided
+QUESTIONS.txt.bk file.
+
+The correct output for the test should be 
+: -: OK
+
+Note: the md5sum program is used for to verify and must be installed
+to work.
+
+#+TESTY: use_valgrind=0
+
+#+BEGIN_SRC sh
+>> ./test_quiz_filter QUESTIONS.txt | md5sum -c QUESTIONS.md5
+-: OK
+#+END_SRC
+
+
+* CODE: coins_funcs_asm.s via coins_main
+
+** 0 Cents
+#+TESTY: program='./coins_main 0'
+
+#+BEGIN_SRC text
+0 cents is...
+0 quarters
+0 dimes
+0 nickels
+0 pennies
+which is 0 cents
+#+END_SRC
+
+** 27 Cents
+#+TESTY: program='./coins_main 27'
+
+#+BEGIN_SRC text
+27 cents is...
+1 quarters
+0 dimes
+0 nickels
+2 pennies
+which is 27 cents
+#+END_SRC
+
+** 49 Cents
+#+TESTY: program='./coins_main 49'
+
+#+BEGIN_SRC text
+49 cents is...
+1 quarters
+2 dimes
+0 nickels
+4 pennies
+which is 49 cents
+#+END_SRC
+
+** 62 Cents
+#+TESTY: program='./coins_main 62'
+
+#+BEGIN_SRC text
+62 cents is...
+2 quarters
+1 dimes
+0 nickels
+2 pennies
+which is 62 cents
+#+END_SRC
+
+** 88 Cents
+#+TESTY: program='./coins_main 88'
+
+#+BEGIN_SRC text
+88 cents is...
+3 quarters
+1 dimes
+0 nickels
+3 pennies
+which is 88 cents
+#+END_SRC
+
+
