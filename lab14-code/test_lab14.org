@@ -1,0 +1,53 @@
+#+TITLE: Lab14 Tests
+#+TESTY: PREFIX="lab"
+#+TESTY: REPORT_FRACTION=1
+# #+TESTY: SHOW=1
+
+* QUIZ: QUESTIONS.txt
+This test determines if the answers in QUESTIONS.txt are correct. This
+file must be edited so that the correct ( ) choices are replaced with
+(X) AND no other changes are made to the file. If you are confident in
+your answers but think you may have made inadvertent changes to
+QUESTIONS.txt, you can try restoring it with the provided
+QUESTIONS.txt.bk file.
+
+The correct output for the test should be 
+: -: OK
+
+Note: the md5sum program is used for to verify and must be installed
+to work.
+
+#+TESTY: use_valgrind=0
+
+#+BEGIN_SRC sh
+>> ./test_quiz_filter QUESTIONS.txt | md5sum -c QUESTIONS.md5
+-: OK
+#+END_SRC
+
+
+* CODE: email_lookup.c
+Runs the ~email_lookup~ program and checks that it behaves as
+expected. First runs with valgrind
+
+#+TESTY: use_valgrind=1
+#+TESTY: program='./email_lookup cse_depts.dat kia@umn.edu'
+#+BEGIN_SRC sh
+Found kia@umn.edu: EE Department --> Kia Bazargan
+#+END_SRC
+
+Runs the ~email_lookup~ program and checks that it behaves as
+expected. Subsequent runs are in a shell with no valgrind checks.
+
+#+TESTY: use_valgrind=0
+#+TESTY: program='bash -v'
+#+BEGIN_SRC sh
+>> ./email_lookup cse_depts.dat follstad@umn.edu
+Found follstad@umn.edu: IT Department --> Carl Follstad
+>> ./email_lookup cse_depts.dat sjguy@umn.edu
+Found sjguy@umn.edu: CS Department --> Stephen Guy
+>> ./email_lookup cse_depts.dat heimdahl@umn.edu
+Found heimdahl@umn.edu: CS Department --> Mats Heimdahl
+>> ./email_lookup cse_depts.dat linus@umn.edu
+Email 'linus@umn.edu' not found
+#+END_SRC
+
