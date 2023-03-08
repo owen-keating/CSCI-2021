@@ -1,0 +1,6 @@
+#!/usr/bin/awk -f
+
+/\(X\)/{                        #match lines that are (X)'d
+  gsub("[ \t\r]","");           #replace whitespace characters with nothing
+  print                         #print
+}
