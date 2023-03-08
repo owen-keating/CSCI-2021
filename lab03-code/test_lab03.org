@@ -1,0 +1,116 @@
+#+TITLE: Lab03 Tests
+#+TESTY: PREFIX="lab"
+#+TESTY: REPORT_FRACTION=1
+# #+TESTY: SHOW=1
+
+* QUIZ: QUESTIONS.txt
+This test determines if the answers in QUESTIONS.txt are correct. This
+file must be edited so that the correct ( ) choices are replaced with
+(X) AND no other changes are made to the file. If you are confident in
+your answers but think you may have made inadvertent changes to
+QUESTIONS.txt, you can try restoring it with the provided
+QUESTIONS.txt.bk file.
+
+The correct output for the test should be 
+: -: OK
+
+Note: the md5sum program is used for to verify and must be installed
+to work.
+
+#+TESTY: use_valgrind=0
+
+#+BEGIN_SRC sh
+>> ./test_quiz_filter QUESTIONS.txt | md5sum -c QUESTIONS.md5
+-: OK
+#+END_SRC
+
+
+* CODE: treasure_main program
+** ./treasure_main map1.tm
+Checks output / memory use for a provided treasure map
+
+#+TESTY: program='./treasure_main map1.tm'
+#+TESTY: use_valgrind=1
+
+#+BEGIN_SRC sh
+Loading treasure map from file 'map1.tm'
+Reading map from file 'map1.tm'
+Allocating map struct
+Map is 7 by 5
+3 treasures on the map
+Allocating array of treasure locations
+Reading treasures
+Treasure at 0 2 called 'Death_Crystals'
+Treasure at 4 1 called 'Mega_Seeds'
+Treasure at 6 3 called 'Flurbo_stash'
+Completed file, closing
+Returning pointer to heap-allocated treasure_t
+
+==TREASURE MAP==
+..A..
+.....
+.....
+.....
+.B...
+.....
+...C.
+================
+A: Death_Crystals
+B: Mega_Seeds
+C: Flurbo_stash
+
+Deallocating map
+#+END_SRC
+
+** ./treasure_main map2.tm
+Checks output / memory use for a provided treasure map
+
+#+TESTY: program='./treasure_main map2.tm'
+#+TESTY: use_valgrind=1
+
+#+BEGIN_SRC sh
+Loading treasure map from file 'map2.tm'
+Reading map from file 'map2.tm'
+Allocating map struct
+Map is 9 by 13
+10 treasures on the map
+Allocating array of treasure locations
+Reading treasures
+Treasure at 5 2 called 'Goblet_of_Fire'
+Treasure at 3 8 called 'Invisibility_Cloak'
+Treasure at 4 11 called 'Elder_Wand'
+Treasure at 8 10 called 'Mirror_of_Erised'
+Treasure at 1 12 called 'Philosophers_Stone'
+Treasure at 7 9 called 'Marauders_Map'
+Treasure at 8 2 called 'Pensieve'
+Treasure at 3 9 called 'Sword_of_Gryffindor'
+Treasure at 7 0 called 'Tom_Riddles_Diary'
+Treasure at 0 11 called 'Time_Turner'
+Completed file, closing
+Returning pointer to heap-allocated treasure_t
+
+==TREASURE MAP==
+...........J.
+............E
+.............
+........BH...
+...........C.
+..A..........
+.............
+I........F...
+..G.......D..
+================
+A: Goblet_of_Fire
+B: Invisibility_Cloak
+C: Elder_Wand
+D: Mirror_of_Erised
+E: Philosophers_Stone
+F: Marauders_Map
+G: Pensieve
+H: Sword_of_Gryffindor
+I: Tom_Riddles_Diary
+J: Time_Turner
+
+Deallocating map
+#+END_SRC
+
