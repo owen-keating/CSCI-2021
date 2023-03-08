@@ -1,0 +1,66 @@
+#+TITLE: Lab01 Tests
+#+TESTY: PREFIX="lab01"
+#+TESTY: REPORT_FRACTION=1
+# #+TESTY: SHOW=1
+
+* QUIZ: QUESTIONS.txt
+This test determines if the answers in QUESTIONS.txt are correct. This
+file must be edited so that the correct ( ) choices are replaced with
+(X) AND no other changes are made to the file. If you are confident in
+your answers but think you may have made inadvertent changes to
+QUESTIONS.txt, you can try restoring it with the provided
+QUESTIONS.txt.bk file.
+
+The correct output for the test should be 
+: -: OK
+
+Note: the md5sum program is used for to verify and must be installed
+to work.
+
+#+TESTY: use_valgrind=0
+
+#+BEGIN_SRC sh
+>> ./test_quiz_filter QUESTIONS.txt | md5sum -c QUESTIONS.md5
+-: OK
+#+END_SRC
+
+
+* CODE: hello_c output
+Runs the program 'hello_c' which must already be compiled and checks
+its output against what is expected.  The original version of this
+program has some typos which must be corrected. Look carefully at the
+test results which compare the EXPECTed out and ACTUAL output side by
+side and shows differences between them via SYMBOLS IN BETWEEN THEM
+
+> means there is an extra ACTUAL line that doesn't match anything in EXPECT
+< means there is a line missing in ACTUAL that is present in EXPECT
+| means the lines match closely but some characters differ
+
+Use the test output to determine where to make corrections in the
+'hello_c.c' source file.
+
+#+TESTY: program='./hello_c'
+#+BEGIN_SRC sh
+Goodbye Python. Goodbye Java.
+Adios array bounds checking and godspeed
+ garbage collector: I'll miss you both.
+Auf wiedersehen exceptions.
+So long OO-programming... whatever you are.
+
+Adieu polymorphic types with type inference, higher-order functions,
+ rich built-in data, full-on modules, interactive loop,
+ time-travelling debugger, byte- and native-code compilers.
+Au revoir, OCaml: c'est la vie.
+
+Now it's time to bang on Bits, 8 of which is a Byte.
+Now it's time to point pointers past proper positions,
+ to shift, and, or, xor, and more.
+Now it's time to malloc() myself and free() freely,
+ to deref dangerously which will suffer segfaults and lead to leaks.
+Now it's time to code close to the metal and resonate with the machine.
+
+It won't be easy. It may not be fun. But it will be true.
+And I will stay determined to see this course through.
+
+Hello C.
+#+END_SRC
