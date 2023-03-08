@@ -1,0 +1,62 @@
+#+TITLE: Lab11 Tests
+#+TESTY: PREFIX="lab"
+#+TESTY: REPORT_FRACTION=1
+# #+TESTY: SHOW=1
+
+* QUIZ: QUESTIONS.txt
+This test determines if the answers in QUESTIONS.txt are correct. This
+file must be edited so that the correct ( ) choices are replaced with
+(X) AND no other changes are made to the file. If you are confident in
+your answers but think you may have made inadvertent changes to
+QUESTIONS.txt, you can try restoring it with the provided
+QUESTIONS.txt.bk file.
+
+The correct output for the test should be 
+: -: OK
+
+Note: the md5sum program is used for to verify and must be installed
+to work.
+
+#+TESTY: use_valgrind=0
+
+#+BEGIN_SRC sh
+>> ./test_quiz_filter QUESTIONS.txt | md5sum -c QUESTIONS.md5
+-: OK
+#+END_SRC
+
+
+* CODE: struct_stride
+Runs the ~struct_stride~ once and checks that the output format
+matches the expected AND that the timing results are ordered properly:
+from slowest to fastest should be
+1. int_field_base
+2. arr_field_base
+3. int_field_optm
+4. arr_field_optm
+
+#+TESTY: timeout=25s
+#+TESTY: export resultfile=test-results/out.tmp
+#+BEGIN_SRC sh
+>> ./struct_stride 10000000 100 > $resultfile
+>> awk '{gsub(/[0-9]\.[0-9]{4}e.../,"1.2345e-00"); print}' $resultfile
+method: int_field_base CPU time: 1.2345e-00 sec   sum: 0
+method: arr_field_base CPU time: 1.2345e-00 sec   sum: 0
+method: int_field_optm CPU time: 1.2345e-00 sec   sum: 0
+method: arr_field_optm CPU time: 1.2345e-00 sec   sum: 0
+>> sort -rgk 5 $resultfile | awk '{$5="-"; print}'
+method: int_field_base CPU time: - sec sum: 0
+method: arr_field_base CPU time: - sec sum: 0
+method: int_field_optm CPU time: - sec sum: 0
+method: arr_field_optm CPU time: - sec sum: 0
+#+END_SRC
+
+Check that there are no memory problems with struct_stride
+
+#+TESTY: program='./struct_stride 100 100'
+#+TESTY: skipdiff=1
+
+#+BEGIN_SRC sh
+Output Ignored, checking valgrind
+#+END_SRC
+
+
